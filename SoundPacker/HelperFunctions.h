@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "SoundPackingLib.h"
 using namespace std;
 
 bool directoryExists(string directory);

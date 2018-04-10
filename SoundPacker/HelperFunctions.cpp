@@ -37,7 +37,7 @@ void generateMetadata(vector<Folder> folders, string destination) {
 			<< '|' << string(2, '-') << "Content: (" << folder.files.size() << " Audio Files, Total Duration: "
 			<< folder.getTotalDuration() << " Seconds)\n";
 		for (auto file : folder.files) {
-			metaDataFile << '|' << string(4, '-') << "File: " << file.name << '\t' << "Duration: " << file.duartion << " Seconds \n";
+			metaDataFile << '|' << string(4, '-') << "File: " << file.name << '\t' << "Duration: " << file.duration << " Seconds \n";
 		}
 		metaDataFile << "\n\n";
 	}
