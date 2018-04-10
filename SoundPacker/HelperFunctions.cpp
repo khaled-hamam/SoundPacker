@@ -18,3 +18,13 @@ void createFolder(string name, string path) {
 			throw "Error in Creating the Folder";
 	}
 }
+
+void copyFile(string name, string origin, string destination) {
+	string destinationDirectory = destination + '\\' + name,
+		originDirectory = origin + '\\' + name,
+		command = "copy " + originDirectory + ' ' + destinationDirectory;
+
+	bool errorValue = system(command.c_str());
+	if (errorValue)
+		throw "Error in Copying the File";
+}
