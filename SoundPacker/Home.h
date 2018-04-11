@@ -1,8 +1,11 @@
 #pragma once
+#include "SoundPackingLib.h"
 
 namespace SoundPacker {
 
 	using namespace System;
+	using namespace System::Diagnostics;
+	using namespace System::IO;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
@@ -18,9 +21,19 @@ namespace SoundPacker {
 		Home(void)
 		{
 			InitializeComponent();
-			//
-			// TODO: Add constructor code here.
-			//
+
+			// Setting ComboBox Options
+			array<Object^>^ algorithms = {
+				gcnew String(WORST_FIT_LS.c_str()),
+				gcnew String(WORST_FIT_PQ.c_str()),
+				gcnew String(WORST_FIT_DEC_LS.c_str()),
+				gcnew String(WORST_FIT_DEC_PQ.c_str()),
+				gcnew String(FIRST_FIT.c_str()),
+				gcnew String(BEST_FIT.c_str()),
+				gcnew String(FOLDER_FILLING.c_str()),
+				gcnew String(MULTITHREADING.c_str()),
+			};
+			this->algorithmsComboBox->Items->AddRange(algorithms);
 		}
 
 	protected:
@@ -34,6 +47,20 @@ namespace SoundPacker {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Button^  chooseFileButton;
+	private: System::Windows::Forms::Label^  fileNameLabel;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::TextBox^  durationTextBox;
+	private: System::Windows::Forms::ComboBox^  algorithmsComboBox;
+	private: System::Windows::Forms::Button^  runButton;
+	private: System::Windows::Forms::Panel^  mainPanel;
+	private: System::Windows::Forms::CheckBox^  allowCopyCheck;
+	private: String^ fileLocation;
+
+
+
+
+	protected:
 
 	protected:
 
@@ -57,20 +84,183 @@ namespace SoundPacker {
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Home::typeid));
+			this->chooseFileButton = (gcnew System::Windows::Forms::Button());
+			this->fileNameLabel = (gcnew System::Windows::Forms::Label());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->durationTextBox = (gcnew System::Windows::Forms::TextBox());
+			this->algorithmsComboBox = (gcnew System::Windows::Forms::ComboBox());
+			this->runButton = (gcnew System::Windows::Forms::Button());
+			this->mainPanel = (gcnew System::Windows::Forms::Panel());
+			this->allowCopyCheck = (gcnew System::Windows::Forms::CheckBox());
+			this->mainPanel->SuspendLayout();
 			this->SuspendLayout();
+			// 
+			// chooseFileButton
+			// 
+			this->chooseFileButton->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->chooseFileButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->chooseFileButton->Location = System::Drawing::Point(100, 105);
+			this->chooseFileButton->Margin = System::Windows::Forms::Padding(0);
+			this->chooseFileButton->Name = L"chooseFileButton";
+			this->chooseFileButton->Size = System::Drawing::Size(75, 25);
+			this->chooseFileButton->TabIndex = 0;
+			this->chooseFileButton->Text = L"Choose File";
+			this->chooseFileButton->UseVisualStyleBackColor = true;
+			this->chooseFileButton->Click += gcnew System::EventHandler(this, &Home::chooseFile);
+			// 
+			// fileNameLabel
+			// 
+			this->fileNameLabel->AllowDrop = true;
+			this->fileNameLabel->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->fileNameLabel->BackColor = System::Drawing::Color::White;
+			this->fileNameLabel->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->fileNameLabel->Location = System::Drawing::Point(22, 105);
+			this->fileNameLabel->Margin = System::Windows::Forms::Padding(0);
+			this->fileNameLabel->Name = L"fileNameLabel";
+			this->fileNameLabel->Size = System::Drawing::Size(78, 25);
+			this->fileNameLabel->TabIndex = 1;
+			this->fileNameLabel->Text = L"Drag File Here";
+			this->fileNameLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->fileNameLabel->DragDrop += gcnew System::Windows::Forms::DragEventHandler(this, &Home::fileDrop);
+			this->fileNameLabel->DragEnter += gcnew System::Windows::Forms::DragEventHandler(this, &Home::dragEnter);
+			// 
+			// label1
+			// 
+			this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(22, 11);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(86, 13);
+			this->label1->TabIndex = 2;
+			this->label1->Text = L"Desired Duration";
+			// 
+			// durationTextBox
+			// 
+			this->durationTextBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->durationTextBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->durationTextBox->Location = System::Drawing::Point(25, 27);
+			this->durationTextBox->Name = L"durationTextBox";
+			this->durationTextBox->Size = System::Drawing::Size(150, 20);
+			this->durationTextBox->TabIndex = 3;
+			this->durationTextBox->Text = L"Minutes/Folder";
+			this->durationTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->durationTextBox->Enter += gcnew System::EventHandler(this, &Home::removeHint);
+			this->durationTextBox->Leave += gcnew System::EventHandler(this, &Home::checkHint);
+			// 
+			// algorithmsComboBox
+			// 
+			this->algorithmsComboBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->algorithmsComboBox->FormattingEnabled = true;
+			this->algorithmsComboBox->Location = System::Drawing::Point(25, 66);
+			this->algorithmsComboBox->Name = L"algorithmsComboBox";
+			this->algorithmsComboBox->Size = System::Drawing::Size(150, 21);
+			this->algorithmsComboBox->TabIndex = 4;
+			this->algorithmsComboBox->Text = L"Choose Algorithm";
+			// 
+			// runButton
+			// 
+			this->runButton->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->runButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->runButton->Location = System::Drawing::Point(25, 172);
+			this->runButton->Name = L"runButton";
+			this->runButton->Size = System::Drawing::Size(150, 25);
+			this->runButton->TabIndex = 5;
+			this->runButton->Text = L"Run";
+			this->runButton->UseVisualStyleBackColor = true;
+			// 
+			// mainPanel
+			// 
+			this->mainPanel->AllowDrop = true;
+			this->mainPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->mainPanel->Controls->Add(this->allowCopyCheck);
+			this->mainPanel->Controls->Add(this->label1);
+			this->mainPanel->Controls->Add(this->runButton);
+			this->mainPanel->Controls->Add(this->chooseFileButton);
+			this->mainPanel->Controls->Add(this->algorithmsComboBox);
+			this->mainPanel->Controls->Add(this->fileNameLabel);
+			this->mainPanel->Controls->Add(this->durationTextBox);
+			this->mainPanel->Location = System::Drawing::Point(22, 47);
+			this->mainPanel->Name = L"mainPanel";
+			this->mainPanel->Size = System::Drawing::Size(200, 209);
+			this->mainPanel->TabIndex = 6;
+			// 
+			// allowCopyCheck
+			// 
+			this->allowCopyCheck->AutoSize = true;
+			this->allowCopyCheck->Location = System::Drawing::Point(58, 143);
+			this->allowCopyCheck->Name = L"allowCopyCheck";
+			this->allowCopyCheck->Size = System::Drawing::Size(78, 17);
+			this->allowCopyCheck->TabIndex = 7;
+			this->allowCopyCheck->Text = L"Allow Copy";
+			this->allowCopyCheck->UseVisualStyleBackColor = true;
 			// 
 			// Home
 			// 
 			this->AccessibleName = L"Sound Packer";
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 261);
+			this->ClientSize = System::Drawing::Size(244, 311);
+			this->Controls->Add(this->mainPanel);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MaximizeBox = false;
+			this->MaximumSize = System::Drawing::Size(260, 350);
+			this->MinimumSize = System::Drawing::Size(260, 350);
 			this->Name = L"Home";
 			this->Text = L"Sound Packer";
+			this->mainPanel->ResumeLayout(false);
+			this->mainPanel->PerformLayout();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
-	};
+	private: System::Void chooseFile(System::Object^  sender, System::EventArgs^  e) {
+		OpenFileDialog^ openFileDialog = gcnew OpenFileDialog;
+
+		openFileDialog->InitialDirectory = "c:\\";
+		openFileDialog->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+		openFileDialog->FilterIndex = 1;
+		openFileDialog->RestoreDirectory = true;
+
+		if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			fileNameLabel->Text = openFileDialog->SafeFileName;
+			fileLocation = openFileDialog->FileName;
+		}
+	}
+
+	private: System::Void removeHint(System::Object^  sender, System::EventArgs^  e) {
+		if (durationTextBox->Text == "Minutes/Folder") {
+			durationTextBox->Text = "";
+		}
+	}
+
+	private: System::Void checkHint(System::Object^  sender, System::EventArgs^  e) {
+		if (durationTextBox->Text->Length == 0) {
+			durationTextBox->Text = "Minutes/Folder";
+		}
+	}
+	
+	private: System::Void dragEnter(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
+		e->Effect = DragDropEffects::All;
+	}
+
+	private: System::Void fileDrop(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
+		array<String^>^ files = (array<String^>^)e->Data->GetData(DataFormats::FileDrop, false);
+		fileLocation = files[0];
+		array<String^>^ locationSplit = files[0]->Split('\\');
+		fileNameLabel->Text = locationSplit[locationSplit->Length - 1];
+	}
+
+};
 }

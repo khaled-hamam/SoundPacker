@@ -1,17 +1,17 @@
 #pragma once
 #include <string>
-using namespace std;
+#include <vector>
 
 class File {
 public:
-	string name;
+	std::string name;
 	int duration;
 };
 
 class Folder {
 public:
-	string name;
-	vector<File> files;
+	std::string name;
+	std::vector<File> files;
 	int totalDuration;
 
 	int getTotalDuration() {
@@ -24,10 +24,11 @@ public:
 	}
 };
 
-const string WORST_FIT_LS		= "WORST_FIT_LS";
-const string WORST_FIT_PQ		= "WORST_FIT_PQ";
-const string WORST_FIT_DEC_LS	= "WORST_FIT_DEC_LS";
-const string WORST_FIT_DEC_PQ	= "WORST_FIT_DEC_PQ";
-const string FIRST_FIT			= "FIRST_FIT";
-const string BEST_FIT			= "BEST_FIT";
-const string MULTITHREADING		= "MULTITHREADING";
+const std::string WORST_FIT_LS		= "Worst Fit Linear Seach";
+const std::string WORST_FIT_PQ		= "Worst Fit Priority Queue";
+const std::string WORST_FIT_DEC_LS	= "Worst Fit Dec. Linear Search";
+const std::string WORST_FIT_DEC_PQ	= "Worst Fit Dec. Priority Queue";
+const std::string FIRST_FIT			= "First Fit";
+const std::string BEST_FIT			= "Best Fit";
+const std::string FOLDER_FILLING	= "Folder Filling";
+const std::string MULTITHREADING	= "Multithreading Algorithm";

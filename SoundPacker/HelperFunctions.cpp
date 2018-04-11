@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "HelperFunctions.h"
 
 bool directoryExists(string directory) {
