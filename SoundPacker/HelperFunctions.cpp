@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "HelperFunctions.h"
+using namespace std;
 
 bool directoryExists(string directory) {
 	DWORD attributes = GetFileAttributesA(directory.c_str());

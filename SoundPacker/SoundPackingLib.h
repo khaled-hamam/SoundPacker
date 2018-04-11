@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
+#include <functional>
 
 class File {
 public:
@@ -23,7 +25,12 @@ public:
 
 		return totalFolderDuration;
 	}
+
+	const friend bool operator>(const Folder &a, const Folder &b);
 };
+
+
+
 
 const std::string WORST_FIT_LS		= "Worst Fit Linear Seach";
 const std::string WORST_FIT_PQ		= "Worst Fit Priority Queue";
@@ -35,3 +42,6 @@ const std::string FOLDER_FILLING	= "Folder Filling";
 const std::string MULTITHREADING	= "Multithreading Algorithm";
 
 double runAlgorithm(std::string inputFile, std::string algorithm, float duration, bool allowCopy);
+
+std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration);
+std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration);
