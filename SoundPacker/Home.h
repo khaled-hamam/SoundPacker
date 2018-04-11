@@ -1,5 +1,6 @@
 #pragma once
 #include "SoundPackingLib.h"
+#include <msclr\marshal_cppstd.h>
 
 namespace SoundPacker {
 
@@ -179,6 +180,7 @@ namespace SoundPacker {
 			this->runButton->TabIndex = 5;
 			this->runButton->Text = L"Run";
 			this->runButton->UseVisualStyleBackColor = true;
+			this->runButton->Click += gcnew System::EventHandler(this, &Home::run);
 			// 
 			// mainPanel
 			// 
@@ -199,9 +201,10 @@ namespace SoundPacker {
 			// allowCopyCheck
 			// 
 			this->allowCopyCheck->AutoSize = true;
+			this->allowCopyCheck->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->allowCopyCheck->Location = System::Drawing::Point(58, 143);
 			this->allowCopyCheck->Name = L"allowCopyCheck";
-			this->allowCopyCheck->Size = System::Drawing::Size(78, 17);
+			this->allowCopyCheck->Size = System::Drawing::Size(75, 17);
 			this->allowCopyCheck->TabIndex = 7;
 			this->allowCopyCheck->Text = L"Allow Copy";
 			this->allowCopyCheck->UseVisualStyleBackColor = true;
@@ -262,5 +265,14 @@ namespace SoundPacker {
 		fileNameLabel->Text = locationSplit[locationSplit->Length - 1];
 	}
 
+	private: System::Void run(System::Object^  sender, System::EventArgs^  e) {
+		msclr::interop::marshal_context context;
+		std::string chosenFile = context.marshal_as<std::string>(fileLocation);
+		std::string chosenAlgorithm = context.marshal_as<std::string>(Convert::ToString(algorithmsComboBox->SelectedItem));
+		float duration = Convert::ToDouble(durationTextBox->Text);
+		bool allowCopy = allowCopyCheck->Checked;
+		
+		runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy);
+	}
 };
 }
