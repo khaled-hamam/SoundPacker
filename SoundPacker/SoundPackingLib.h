@@ -34,4 +34,4 @@ const std::string BEST_FIT			= "Best Fit";
 const std::string FOLDER_FILLING	= "Folder Filling";
 const std::string MULTITHREADING	= "Multithreading Algorithm";
 
-int runAlgorithm(std::string inputFile, std::string algorithm, float duration, bool allowCopy);
+double runAlgorithm(std::string inputFile, std::string algorithm, float duration, bool allowCopy);

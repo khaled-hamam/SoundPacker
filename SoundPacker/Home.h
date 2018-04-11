@@ -57,6 +57,7 @@ namespace SoundPacker {
 	private: System::Windows::Forms::Panel^  mainPanel;
 	private: System::Windows::Forms::CheckBox^  allowCopyCheck;
 	private: String^ fileLocation;
+	private: System::Windows::Forms::Label^  outputLabel;
 
 
 
@@ -93,16 +94,15 @@ namespace SoundPacker {
 			this->runButton = (gcnew System::Windows::Forms::Button());
 			this->mainPanel = (gcnew System::Windows::Forms::Panel());
 			this->allowCopyCheck = (gcnew System::Windows::Forms::CheckBox());
+			this->outputLabel = (gcnew System::Windows::Forms::Label());
 			this->mainPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// chooseFileButton
 			// 
-			this->chooseFileButton->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->chooseFileButton->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->chooseFileButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->chooseFileButton->Location = System::Drawing::Point(100, 105);
+			this->chooseFileButton->Location = System::Drawing::Point(99, 150);
 			this->chooseFileButton->Margin = System::Windows::Forms::Padding(0);
 			this->chooseFileButton->Name = L"chooseFileButton";
 			this->chooseFileButton->Size = System::Drawing::Size(75, 25);
@@ -114,12 +114,10 @@ namespace SoundPacker {
 			// fileNameLabel
 			// 
 			this->fileNameLabel->AllowDrop = true;
-			this->fileNameLabel->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->fileNameLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->fileNameLabel->BackColor = System::Drawing::Color::White;
 			this->fileNameLabel->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->fileNameLabel->Location = System::Drawing::Point(22, 105);
+			this->fileNameLabel->Location = System::Drawing::Point(21, 150);
 			this->fileNameLabel->Margin = System::Windows::Forms::Padding(0);
 			this->fileNameLabel->Name = L"fileNameLabel";
 			this->fileNameLabel->Size = System::Drawing::Size(78, 25);
@@ -131,11 +129,9 @@ namespace SoundPacker {
 			// 
 			// label1
 			// 
-			this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->label1->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(22, 11);
+			this->label1->Location = System::Drawing::Point(21, 56);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(86, 13);
 			this->label1->TabIndex = 2;
@@ -143,11 +139,9 @@ namespace SoundPacker {
 			// 
 			// durationTextBox
 			// 
-			this->durationTextBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->durationTextBox->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->durationTextBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->durationTextBox->Location = System::Drawing::Point(25, 27);
+			this->durationTextBox->Location = System::Drawing::Point(24, 72);
 			this->durationTextBox->Name = L"durationTextBox";
 			this->durationTextBox->Size = System::Drawing::Size(150, 20);
 			this->durationTextBox->TabIndex = 3;
@@ -158,11 +152,9 @@ namespace SoundPacker {
 			// 
 			// algorithmsComboBox
 			// 
-			this->algorithmsComboBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->algorithmsComboBox->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->algorithmsComboBox->FormattingEnabled = true;
-			this->algorithmsComboBox->Location = System::Drawing::Point(25, 66);
+			this->algorithmsComboBox->Location = System::Drawing::Point(24, 111);
 			this->algorithmsComboBox->Name = L"algorithmsComboBox";
 			this->algorithmsComboBox->Size = System::Drawing::Size(150, 21);
 			this->algorithmsComboBox->TabIndex = 4;
@@ -170,11 +162,9 @@ namespace SoundPacker {
 			// 
 			// runButton
 			// 
-			this->runButton->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
-				| System::Windows::Forms::AnchorStyles::Left)
-				| System::Windows::Forms::AnchorStyles::Right));
+			this->runButton->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->runButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->runButton->Location = System::Drawing::Point(25, 172);
+			this->runButton->Location = System::Drawing::Point(24, 217);
 			this->runButton->Name = L"runButton";
 			this->runButton->Size = System::Drawing::Size(150, 25);
 			this->runButton->TabIndex = 5;
@@ -186,6 +176,7 @@ namespace SoundPacker {
 			// 
 			this->mainPanel->AllowDrop = true;
 			this->mainPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->mainPanel->Controls->Add(this->outputLabel);
 			this->mainPanel->Controls->Add(this->allowCopyCheck);
 			this->mainPanel->Controls->Add(this->label1);
 			this->mainPanel->Controls->Add(this->runButton);
@@ -193,21 +184,30 @@ namespace SoundPacker {
 			this->mainPanel->Controls->Add(this->algorithmsComboBox);
 			this->mainPanel->Controls->Add(this->fileNameLabel);
 			this->mainPanel->Controls->Add(this->durationTextBox);
-			this->mainPanel->Location = System::Drawing::Point(22, 47);
+			this->mainPanel->Location = System::Drawing::Point(22, 1);
 			this->mainPanel->Name = L"mainPanel";
-			this->mainPanel->Size = System::Drawing::Size(200, 209);
+			this->mainPanel->Size = System::Drawing::Size(200, 311);
 			this->mainPanel->TabIndex = 6;
 			// 
 			// allowCopyCheck
 			// 
+			this->allowCopyCheck->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->allowCopyCheck->AutoSize = true;
 			this->allowCopyCheck->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->allowCopyCheck->Location = System::Drawing::Point(58, 143);
+			this->allowCopyCheck->Location = System::Drawing::Point(57, 188);
 			this->allowCopyCheck->Name = L"allowCopyCheck";
 			this->allowCopyCheck->Size = System::Drawing::Size(75, 17);
 			this->allowCopyCheck->TabIndex = 7;
 			this->allowCopyCheck->Text = L"Allow Copy";
 			this->allowCopyCheck->UseVisualStyleBackColor = true;
+			// 
+			// outputLabel
+			// 
+			this->outputLabel->Location = System::Drawing::Point(3, 247);
+			this->outputLabel->Name = L"outputLabel";
+			this->outputLabel->Size = System::Drawing::Size(194, 23);
+			this->outputLabel->TabIndex = 7;
+			this->outputLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// Home
 			// 
@@ -265,14 +265,38 @@ namespace SoundPacker {
 		fileNameLabel->Text = locationSplit[locationSplit->Length - 1];
 	}
 
+	private: bool checkValidArgs() {
+		durationTextBox->Text = durationTextBox->Text->Trim();
+		String^ duration = durationTextBox->Text;
+
+		if (duration->Length == 0 || duration == "Minutes/Folder") {
+			outputLabel->Text = "Please Enter the Desired Duration";
+			return false;
+		}
+		else if (algorithmsComboBox->SelectedIndex == -1) {
+			outputLabel->Text = "Please Select an Algorithm";
+			return false;
+		}
+		else if (!fileLocation) {
+			outputLabel->Text = "Please Select an input File";
+			return false;
+		}
+
+		return true;
+	}
+
 	private: System::Void run(System::Object^  sender, System::EventArgs^  e) {
+		if (!checkValidArgs())
+			return;
+
 		msclr::interop::marshal_context context;
 		std::string chosenFile = context.marshal_as<std::string>(fileLocation);
 		std::string chosenAlgorithm = context.marshal_as<std::string>(Convert::ToString(algorithmsComboBox->SelectedItem));
 		float duration = Convert::ToDouble(durationTextBox->Text);
 		bool allowCopy = allowCopyCheck->Checked;
 		
-		runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy);
+		Double timeElapsed = runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy);
+		outputLabel->Text = "Time Elapsed: " + timeElapsed.ToString();
 	}
 };
 }
