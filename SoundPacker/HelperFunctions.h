@@ -4,9 +4,8 @@
 #include <vector>
 #include <fstream>
 #include "SoundPackingLib.h"
-using namespace std;
 
-bool directoryExists(string directory);
-void createFolder(string name, string path);
-void copyFile(string name, string origin, string destination);
-void generateMetadata(vector<Folder> folders, string destination);
+bool directoryExists(std::string directory);
+void createFolder(std::string name, std::string path);
+void copyFile(std::string name, std::string origin, std::string destination);
+void generateMetadata(std::vector<Folder> folders, std::string destination);

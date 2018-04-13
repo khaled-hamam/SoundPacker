@@ -56,7 +56,7 @@ namespace SoundPacker {
 	private: System::Windows::Forms::Button^  runButton;
 	private: System::Windows::Forms::Panel^  mainPanel;
 	private: System::Windows::Forms::CheckBox^  allowCopyCheck;
-	private: String^ fileLocation;
+	private: String ^ fileLocation;
 	private: System::Windows::Forms::Label^  outputLabel;
 
 
@@ -253,7 +253,7 @@ namespace SoundPacker {
 			durationTextBox->Text = "Minutes/Folder";
 		}
 	}
-	
+
 	private: System::Void dragEnter(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
 		e->Effect = DragDropEffects::All;
 	}
@@ -294,9 +294,9 @@ namespace SoundPacker {
 		std::string chosenAlgorithm = context.marshal_as<std::string>(Convert::ToString(algorithmsComboBox->SelectedItem));
 		float duration = Convert::ToDouble(durationTextBox->Text);
 		bool allowCopy = allowCopyCheck->Checked;
-		
+
 		Double timeElapsed = runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy);
 		outputLabel->Text = "Time Elapsed: " + timeElapsed.ToString();
 	}
-};
+	};
 }
