@@ -1,7 +1,11 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <vector>
+#include<iostream>
+#include<string>
+#include<vector>
+#include <algorithm>
+#include<queue>
+#include<functional>
+#include<stdio.h>
 
 class File {
 public:
@@ -24,7 +28,6 @@ public:
 		return totalFolderDuration;
 	}
 };
-
 const std::string WORST_FIT_LS		= "Worst Fit Linear Seach";
 const std::string WORST_FIT_PQ		= "Worst Fit Priority Queue";
 const std::string WORST_FIT_DEC_LS	= "Worst Fit Dec. Linear Search";
@@ -35,3 +38,7 @@ const std::string FOLDER_FILLING	= "Folder Filling";
 const std::string MULTITHREADING	= "Multithreading Algorithm";
 
 double runAlgorithm(std::string inputFile, std::string algorithm, float duration, bool allowCopy);
+vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, float maxDuration);
+vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, float maxDuration);
+vector<Folder> FirstFitDecreasingLS(vector<File> inputFiles, float maxDuration);
+vector<Folder> folderFilling(vector<File> files, float maxDuration);
