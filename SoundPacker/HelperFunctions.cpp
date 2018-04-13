@@ -44,3 +44,36 @@ void generateMetadata(vector<Folder> folders, string destination) {
 		metaDataFile << "\n\n";
 	}
 }
+
+std::vector<File> parseInput(std::string inputFile) {
+	vector<File> inputFiles; int nFiles;
+	fstream file(inputFile, fstream::in);
+	
+	file >> nFiles;
+	for (int i = 0; i < nFiles; ++i) {
+		string fileName; file >> fileName;
+		string durationString; file >> durationString;
+		inputFiles.push_back(File(fileName, parseDurationString(durationString)));
+	}
+
+	return inputFiles;
+}
+
+float parseDurationString(std::string durationString) {
+	float hours, minutes, seconds;
+	stringstream ss;
+
+	// Parsing the Hours
+	ss << durationString.substr(0, 2);
+	ss >> hours; ss.clear();
+
+	// Parsing the Minutes
+	ss << durationString.substr(3, 2);
+	ss >> minutes; ss.clear();
+
+	// Parsing the Seconds
+	ss << durationString.substr(6, 2);
+	ss >> seconds; ss.clear();
+
+	return (hours * 60) + minutes + (seconds / 60);
+}

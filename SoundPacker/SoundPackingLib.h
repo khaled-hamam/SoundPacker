@@ -8,17 +8,20 @@
 class File {
 public:
 	std::string name;
-	int duration;
+	float duration;
+
+	File() : name(""), duration(0) {}
+	File(std::string name, float duration) : name(name), duration(duration) {}
 };
 
 class Folder {
 public:
 	std::string name;
 	std::vector<File> files;
-	int totalDuration;
+	float totalDuration;
 
-	int getTotalDuration() {
-		int totalFolderDuration = 0;
+	float getTotalDuration() {
+		float totalFolderDuration = 0;
 		for (auto file : files) {
 			totalDuration += file.duration;
 		}
@@ -41,6 +44,7 @@ const std::string BEST_FIT			= "Best Fit";
 const std::string FOLDER_FILLING	= "Folder Filling";
 const std::string MULTITHREADING	= "Multithreading Algorithm";
 
+// TODO: Put runAlgorithm in HelperFunctions
 double runAlgorithm(std::string inputFile, std::string algorithm, float duration, bool allowCopy);
 
 std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration);

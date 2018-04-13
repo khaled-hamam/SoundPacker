@@ -7,6 +7,21 @@ using namespace System;
 using namespace System::Diagnostics;
 
 double runAlgorithm(string inputFile, string algorithm, float duration, bool allowCopy) {
+	// Reading the Input File and Parsing the input to vector<File>
+	vector<File> inputFiles = parseInput(inputFile);
+
+	// TODO: Calculating the Running Time of the Algorithm
+	vector<Folder> resultFolders;
+	if (algorithm == WORST_FIT_LS) {
+		resultFolders = WorstFitLS(inputFiles, duration);
+	} else if (algorithm == WORST_FIT_PQ) {
+		resultFolders = WorstFitPQ(inputFiles, duration);
+	} else {
+		return -1;
+	}
+
+	// TODO: Generating the Metadata file
+	// TODO: Copy the files to the destination folder if allowCopy == true
 	
 	return 0;
 }
@@ -43,7 +58,6 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration) {
 
 	return folders;
 }
-
 
 std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration) {
 	std::priority_queue<Folder, vector<Folder>, greater<Folder> >folders;
