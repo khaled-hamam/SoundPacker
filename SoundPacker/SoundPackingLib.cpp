@@ -14,7 +14,7 @@ bool compareFunction(File a, File b) {
 	return a.duration < b.duration; 
 }
 
-std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
+vector<Folder> WorstFitLS(vector<File> files, int maxDuration) {
 	vector<Folder>folders;
 
 	
@@ -42,7 +42,7 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 	return folders;
 }
 
-std::vector<Folder> WorstFitPQ(std::vector<File> files, int maxDuration) {
+vector<Folder> WorstFitPQ(vector<File> files, int maxDuration) {
 	std::priority_queue<Folder, vector<Folder>, greater<Folder> >folders;
 
 	for (int i = 0; i < files.size(); i++) {

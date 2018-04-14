@@ -29,6 +29,11 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	// Creating the Algorithm Output Folder
 	createFolder(algorithm, parentPath + "Packed Files");
 
+	// Naming the Folders
+	for (int i = 0; i < resultFolders.size(); ++i) {
+		resultFolders[i].name = Folder::getName(i + 1);
+	}
+
 	// Generating the Metadata file
 	generateMetadata(resultFolders, parentPath + "Packed Files\\" + algorithm);
 
@@ -37,13 +42,12 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 		// Getting Input Files Path from The Parent Folder path
 		string audioFilesPath = parentPath + "Audios";  // The Path now = {ParentFolder}\Audios
 
-		for (int i = 0; i < resultFolders.size(); ++i) {
-			resultFolders[i].name = Folder::getName(i + 1);  // Assigning the Name to 'F{i}'
-			createFolder(resultFolders[i].name, parentPath + "Packed Files\\" + algorithm);
-			for (auto file : resultFolders[i].files) {
+		for (auto folder: resultFolders) {
+			createFolder(folder.name, parentPath + "Packed Files\\" + algorithm);
+			for (auto file : folder.files) {
 				// Copying each file from the source to it's folder
 				// New Path: Packed Files\algorithm_name\F{i}
-				copyFile(file.name, audioFilesPath, parentPath + "Packed Files\\" + algorithm + '\\' + resultFolders[i].name);
+				copyFile(file.name, audioFilesPath, parentPath + "Packed Files\\" + algorithm + '\\' + folder.name);
 			}
 		}
 	}
@@ -87,7 +91,7 @@ void generateMetadata(vector<Folder> folders, string destination) {
 	for (auto folder : folders) {
 		metaDataFile << "|Folder: " << folder.name << '\n'
 			<< '|' << string(2, '-') << "Content: (" << folder.files.size() << " Audio Files, Total Duration: "
-			<< folder.getTotalDuration() << " Seconds)\n";
+			<< folder.totalDuration << " Seconds)\n";
 		for (auto file : folder.files) {
 			metaDataFile << '|' << string(4, '-') << "File: " << file.name << '\t' << "Duration: " << file.duration << " Seconds \n";
 		}
