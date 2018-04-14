@@ -6,26 +6,6 @@ using namespace std;
 using namespace System;
 using namespace System::Diagnostics;
 
-double runAlgorithm(string inputFile, string algorithm, float duration, bool allowCopy) {
-	// Reading the Input File and Parsing the input to vector<File>
-	vector<File> inputFiles = parseInput(inputFile);
-
-	// TODO: Calculating the Running Time of the Algorithm
-	vector<Folder> resultFolders;
-	if (algorithm == WORST_FIT_LS) {
-		resultFolders = WorstFitLS(inputFiles, duration);
-	} else if (algorithm == WORST_FIT_PQ) {
-		resultFolders = WorstFitPQ(inputFiles, duration);
-	} else {
-		return -1;
-	}
-
-	// TODO: Generating the Metadata file
-	// TODO: Copy the files to the destination folder if allowCopy == true
-	
-	return 0;
-}
-
 const bool operator>(const Folder &a, const Folder &b) {
 	return a.totalDuration > b.totalDuration;
 }

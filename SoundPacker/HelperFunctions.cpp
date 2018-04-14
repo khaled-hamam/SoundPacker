@@ -2,6 +2,56 @@
 #include "HelperFunctions.h"
 using namespace std;
 
+double runAlgorithm(string inputFile, string algorithm, int duration, bool allowCopy) {
+	// Reading the Input File and Parsing the input to vector<File>
+	vector<File> inputFiles = parseInput(inputFile);
+
+	// TODO: Calculating the Running Time of the Algorithm
+
+	// Running the Selected Algorithm
+	vector<Folder> resultFolders;
+	if (algorithm == WORST_FIT_LS) {
+		resultFolders = WorstFitLS(inputFiles, duration);
+	}
+	else if (algorithm == WORST_FIT_PQ) {
+		resultFolders = WorstFitPQ(inputFiles, duration);
+	}
+	else {
+		return -1;
+	}
+
+	// Getting The Parent Folder Path of the Input Metadata File
+	string parentPath = inputFile;
+	while (parentPath.back() != '\\') {  // Removing the File Name from the Path
+		parentPath.pop_back();
+	}
+
+	// Creating the Algorithm Output Folder
+	createFolder(algorithm, parentPath + "Packed Files");
+
+	// Generating the Metadata file
+	generateMetadata(resultFolders, parentPath + "Packed Files\\" + algorithm);
+
+	// Copy the files to the destination folder if allowCopy == true
+	if (allowCopy) {
+		// Getting Input Files Path from The Parent Folder path
+		string audioFilesPath = parentPath + "Audios";  // The Path now = {ParentFolder}\Audios
+
+		for (int i = 0; i < resultFolders.size(); ++i) {
+			resultFolders[i].name = Folder::getName(i + 1);  // Assigning the Name to 'F{i}'
+			createFolder(resultFolders[i].name, parentPath + "Packed Files\\" + algorithm);
+			for (auto file : resultFolders[i].files) {
+				// Copying each file from the source to it's folder
+				// New Path: Packed Files\algorithm_name\F{i}
+				copyFile(file.name, audioFilesPath, parentPath + "Packed Files\\" + algorithm + '\\' + resultFolders[i].name);
+			}
+		}
+	}
+
+	// Returning the Elapsed Algorithm Time
+	return 0;
+}
+
 bool directoryExists(string directory) {
 	DWORD attributes = GetFileAttributesA(directory.c_str());
 
@@ -14,7 +64,7 @@ bool directoryExists(string directory) {
 void createFolder(string name, string path) {
 	string folderDirectory = path + '\\' + name;
 	if (!directoryExists(folderDirectory)) {
-		string command = "mkdir " + folderDirectory;
+		string command = "mkdir \"" + folderDirectory + '"';
 		bool errorValue = system(command.c_str());
 		if (errorValue)
 			throw "Error in Creating the Folder";
@@ -24,7 +74,7 @@ void createFolder(string name, string path) {
 void copyFile(string name, string origin, string destination) {
 	string destinationDirectory = destination + '\\' + name,
 		originDirectory = origin + '\\' + name,
-		command = "copy " + originDirectory + ' ' + destinationDirectory;
+		command = "copy \"" + originDirectory + "\" \"" + destinationDirectory + '"';
 
 	bool errorValue = system(command.c_str());
 	if (errorValue)
@@ -59,21 +109,23 @@ std::vector<File> parseInput(std::string inputFile) {
 	return inputFiles;
 }
 
-float parseDurationString(std::string durationString) {
-	float hours, minutes, seconds;
+int parseDurationString(std::string durationString) {
+	int hours, minutes, seconds;
 	stringstream ss;
 
 	// Parsing the Hours
-	ss << durationString.substr(0, 2);
+	int hoursPartition = durationString.find(":");
+	ss << durationString.substr(0, hoursPartition);
 	ss >> hours; ss.clear();
 
 	// Parsing the Minutes
-	ss << durationString.substr(3, 2);
+	int minutesPartition = durationString.find(":", hoursPartition + 1);
+	ss << durationString.substr(hoursPartition + 1, minutesPartition - hoursPartition - 1);
 	ss >> minutes; ss.clear();
 
 	// Parsing the Seconds
-	ss << durationString.substr(6, 2);
+	ss << durationString.substr(minutesPartition + 1);
 	ss >> seconds; ss.clear();
 
-	return (hours * 60) + minutes + (seconds / 60);
+	return (hours * 60 * 60) + (minutes * 60) + seconds;
 }
