@@ -10,7 +10,9 @@ const bool operator>(const Folder &a, const Folder &b) {
 	return a.totalDuration > b.totalDuration;
 }
 
-bool compareFunction(File i, File j) { return (i.duration < j.duration); }
+bool compareFunction(File a, File b) { 
+	return a.duration < b.duration; 
+}
 
 std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration) {
 	vector<Folder>folders;
@@ -70,8 +72,7 @@ std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration) {
 	return folder;
 }
 
-vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration)
-{
+vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction);
 	vector<Folder> myFolders;
 	Folder fisrtFolder;
@@ -101,8 +102,7 @@ vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration)
 	return myFolders;
 }
 
-vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration)
-{
+vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
 	priority_queue < Folder, vector<Folder>, greater<Folder> > myFolderspq;
 	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction); // O(N Log N)
 	Folder fisrtFolder;
@@ -131,8 +131,7 @@ vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration)
 	return myFolders;
 }
 
-vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration)
-{
+vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	vector<Folder> myFolders;
 	for (int i = 0; i < inputFiles.size(); i++) {
 		int k = 0;
