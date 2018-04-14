@@ -90,7 +90,7 @@ std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration) {
 	return folder;
 }
 
-vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, float maxDuration)
+vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration)
 {
 	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction);
 	vector<Folder> myFolders;
@@ -121,7 +121,7 @@ vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, float maxDuration)
 	return myFolders;
 }
 
-vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, float maxDuration)
+vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration)
 {
 	priority_queue < Folder, vector<Folder>, greater<Folder> > myFolderspq;
 	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction); // O(N Log N)
@@ -151,7 +151,7 @@ vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, float maxDuration)
 	return myFolders;
 }
 
-vector<Folder> FirstFitDecreasingLS(vector<File> inputFiles, float maxDuration)
+vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration)
 {
 	vector<Folder> myFolders;
 	for (int i = 0; i < inputFiles.size(); i++) {
@@ -173,43 +173,3 @@ vector<Folder> FirstFitDecreasingLS(vector<File> inputFiles, float maxDuration)
 	}
 	return myFolders;
 }
-int dp[10001][351];
-bool store[10001][351];
-vector<Folder> folderFilling(vector<File> files, float maxDuration)
-{
-	vector<Folder> folders;
-	while (!files.empty()) {
-		memset(dp, -1, sizeof dp);
-		memset(store, 0, sizeof store);
-		Folder folder;
-		for (int i = 0; i <= files.size(); i++) {
-			for (int j = 0; j <= maxDuration; j++) {
-				int duration = files[i - 1].duration;
-				if (!i) {
-					dp[i][j] = 0;
-				}
-				else if (duration <= j && dp[i - 1][j] < duration + dp[i - 1][j - duration]) {
-					dp[i][j] = duration + dp[i - 1][j - duration];
-					store[i][j] = true;
-				}
-				else {
-					dp[i][j] = dp[i - 1][j];
-					store[i][j] = false;
-				}
-			}
-		}
-		cout << dp[files.size()][(int)maxDuration] << endl;
-		int j = maxDuration;
-		for (int i = files.size(); i >= 1; i--) {
-			if (store[i][j]) {
-				folder.files.push_back(files[i - 1]);
-				j -= files[i - 1].duration;
-				files.erase(files.begin() + (i - 1));
-			}
-		}
-
-		folders.push_back(folder);
-	}
-	return folders;
-}
-
