@@ -1,5 +1,5 @@
 #pragma once
-#include "SoundPackingLib.h"
+#include "HelperFunctions.h"
 #include <msclr\marshal_cppstd.h>
 
 namespace SoundPacker {
@@ -93,8 +93,8 @@ namespace SoundPacker {
 			this->algorithmsComboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->runButton = (gcnew System::Windows::Forms::Button());
 			this->mainPanel = (gcnew System::Windows::Forms::Panel());
-			this->allowCopyCheck = (gcnew System::Windows::Forms::CheckBox());
 			this->outputLabel = (gcnew System::Windows::Forms::Label());
+			this->allowCopyCheck = (gcnew System::Windows::Forms::CheckBox());
 			this->mainPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -133,9 +133,9 @@ namespace SoundPacker {
 			this->label1->AutoSize = true;
 			this->label1->Location = System::Drawing::Point(21, 56);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(86, 13);
+			this->label1->Size = System::Drawing::Size(81, 13);
 			this->label1->TabIndex = 2;
-			this->label1->Text = L"Desired Duration";
+			this->label1->Text = L"Duration/Folder";
 			// 
 			// durationTextBox
 			// 
@@ -145,7 +145,7 @@ namespace SoundPacker {
 			this->durationTextBox->Name = L"durationTextBox";
 			this->durationTextBox->Size = System::Drawing::Size(150, 20);
 			this->durationTextBox->TabIndex = 3;
-			this->durationTextBox->Text = L"Minutes/Folder";
+			this->durationTextBox->Text = L"HH:MM:SS";
 			this->durationTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			this->durationTextBox->Enter += gcnew System::EventHandler(this, &Home::removeHint);
 			this->durationTextBox->Leave += gcnew System::EventHandler(this, &Home::checkHint);
@@ -189,6 +189,14 @@ namespace SoundPacker {
 			this->mainPanel->Size = System::Drawing::Size(200, 311);
 			this->mainPanel->TabIndex = 6;
 			// 
+			// outputLabel
+			// 
+			this->outputLabel->Location = System::Drawing::Point(3, 247);
+			this->outputLabel->Name = L"outputLabel";
+			this->outputLabel->Size = System::Drawing::Size(194, 23);
+			this->outputLabel->TabIndex = 7;
+			this->outputLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
 			// allowCopyCheck
 			// 
 			this->allowCopyCheck->Anchor = System::Windows::Forms::AnchorStyles::None;
@@ -200,14 +208,6 @@ namespace SoundPacker {
 			this->allowCopyCheck->TabIndex = 7;
 			this->allowCopyCheck->Text = L"Allow Copy";
 			this->allowCopyCheck->UseVisualStyleBackColor = true;
-			// 
-			// outputLabel
-			// 
-			this->outputLabel->Location = System::Drawing::Point(3, 247);
-			this->outputLabel->Name = L"outputLabel";
-			this->outputLabel->Size = System::Drawing::Size(194, 23);
-			this->outputLabel->TabIndex = 7;
-			this->outputLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// Home
 			// 
@@ -228,75 +228,93 @@ namespace SoundPacker {
 
 		}
 #pragma endregion
-	private: System::Void chooseFile(System::Object^  sender, System::EventArgs^  e) {
-		OpenFileDialog^ openFileDialog = gcnew OpenFileDialog;
+		private: System::Void chooseFile(System::Object^  sender, System::EventArgs^  e) {
+			OpenFileDialog^ openFileDialog = gcnew OpenFileDialog;
 
-		openFileDialog->InitialDirectory = "c:\\";
-		openFileDialog->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-		openFileDialog->FilterIndex = 1;
-		openFileDialog->RestoreDirectory = true;
+			openFileDialog->InitialDirectory = "c:\\";
+			openFileDialog->Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+			openFileDialog->FilterIndex = 1;
+			openFileDialog->RestoreDirectory = true;
 
-		if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			fileNameLabel->Text = openFileDialog->SafeFileName;
-			fileLocation = openFileDialog->FileName;
-		}
-	}
-
-	private: System::Void removeHint(System::Object^  sender, System::EventArgs^  e) {
-		if (durationTextBox->Text == "Minutes/Folder") {
-			durationTextBox->Text = "";
-		}
-	}
-
-	private: System::Void checkHint(System::Object^  sender, System::EventArgs^  e) {
-		if (durationTextBox->Text->Length == 0) {
-			durationTextBox->Text = "Minutes/Folder";
-		}
-	}
-
-	private: System::Void dragEnter(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
-		e->Effect = DragDropEffects::All;
-	}
-
-	private: System::Void fileDrop(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
-		array<String^>^ files = (array<String^>^)e->Data->GetData(DataFormats::FileDrop, false);
-		fileLocation = files[0];
-		array<String^>^ locationSplit = files[0]->Split('\\');
-		fileNameLabel->Text = locationSplit[locationSplit->Length - 1];
-	}
-
-	private: bool checkValidArgs() {
-		durationTextBox->Text = durationTextBox->Text->Trim();
-		String^ duration = durationTextBox->Text;
-
-		if (duration->Length == 0 || duration == "Minutes/Folder") {
-			outputLabel->Text = "Please Enter the Desired Duration";
-			return false;
-		}
-		else if (algorithmsComboBox->SelectedIndex == -1) {
-			outputLabel->Text = "Please Select an Algorithm";
-			return false;
-		}
-		else if (!fileLocation) {
-			outputLabel->Text = "Please Select an input File";
-			return false;
+			if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+				fileNameLabel->Text = openFileDialog->SafeFileName;
+				fileLocation = openFileDialog->FileName;
+			}
 		}
 
-		return true;
-	}
+		private: System::Void removeHint(System::Object^  sender, System::EventArgs^  e) {
+			if (durationTextBox->Text == "HH:MM:SS") {
+				durationTextBox->Text = "";
+			}
+		}
 
-	private: System::Void run(System::Object^  sender, System::EventArgs^  e) {
-		if (!checkValidArgs())
-			return;
+		private: System::Void checkHint(System::Object^  sender, System::EventArgs^  e) {
+			if (durationTextBox->Text->Length == 0) {
+				durationTextBox->Text = "HH:MM:SS";
+			}
+		}
 
-		msclr::interop::marshal_context context;
-		std::string chosenFile = context.marshal_as<std::string>(fileLocation);
-		std::string chosenAlgorithm = context.marshal_as<std::string>(Convert::ToString(algorithmsComboBox->SelectedItem));
-		float duration = Convert::ToDouble(durationTextBox->Text);
-		bool allowCopy = allowCopyCheck->Checked;
+		private: System::Void dragEnter(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
+			e->Effect = DragDropEffects::All;
+		}
 
-		Double timeElapsed = runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy);
-		outputLabel->Text = "Time Elapsed: " + timeElapsed.ToString();
-	}
+		private: System::Void fileDrop(System::Object^  sender, System::Windows::Forms::DragEventArgs^  e) {
+			array<String^>^ files = (array<String^>^)e->Data->GetData(DataFormats::FileDrop, false);
+			fileLocation = files[0];
+			array<String^>^ locationSplit = files[0]->Split('\\');
+			fileNameLabel->Text = locationSplit[locationSplit->Length - 1];
+		}
+
+		private: bool isValidDurationString(String^ duration) {
+			if (duration->Length != 8)
+				return false;
+
+			if (duration[2] != ':' || duration[5] != ':')
+				return false;
+
+			for (int i = 0; i < 8; ++i) {
+				if (i == 2 || i == 5)
+					continue;
+				if (Char::IsDigit(duration, i) == false)
+					return false;
+			}
+
+			return true;
+		}
+
+		private: bool checkValidArgs() {
+			durationTextBox->Text = durationTextBox->Text->Trim();
+			String^ duration = durationTextBox->Text;
+
+			if (!isValidDurationString(duration)) {
+				outputLabel->Text = "Please Enter a Valid Duration";
+				return false;
+			}
+			else if (algorithmsComboBox->SelectedIndex == -1) {
+				outputLabel->Text = "Please Select an Algorithm";
+				return false;
+			}
+			else if (!fileLocation) {
+				outputLabel->Text = "Please Select an input File";
+				return false;
+			}
+
+			return true;
+		}
+
+		private: System::Void run(System::Object^  sender, System::EventArgs^  e) {
+			if (!checkValidArgs())
+				return;
+
+			msclr::interop::marshal_context context;
+			std::string chosenFile = context.marshal_as<std::string>(fileLocation);
+			std::string chosenAlgorithm = context.marshal_as<std::string>(Convert::ToString(algorithmsComboBox->SelectedItem));
+			std::string durationString = context.marshal_as<std::string>(Convert::ToString(durationTextBox->Text));
+			int duration = parseDurationString(durationString);
+			bool allowCopy = allowCopyCheck->Checked;
+
+			Double timeElapsed = runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy);
+			outputLabel->Text = "Time Elapsed: " + timeElapsed.ToString();
+		}
 	};
 }
