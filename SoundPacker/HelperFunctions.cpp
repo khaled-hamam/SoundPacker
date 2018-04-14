@@ -16,6 +16,15 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	else if (algorithm == WORST_FIT_PQ) {
 		resultFolders = WorstFitPQ(inputFiles, duration);
 	}
+	else if (algorithm == WORST_FIT_DEC_LS) {
+		resultFolders = worstFitDecreasingLS(inputFiles, duration);
+	}
+	else if (algorithm == WORST_FIT_DEC_PQ) {
+		resultFolders = worstFitDecreasingPQ(inputFiles, duration);
+	}
+	else if (algorithm == FIRST_FIT) {
+		resultFolders = firstFitDecreasingLS(inputFiles, duration);
+	}
 	else {
 		return -1;
 	}

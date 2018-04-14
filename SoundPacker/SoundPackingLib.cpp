@@ -108,31 +108,33 @@ vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
 	Folder fisrtFolder;
 	fisrtFolder.totalDuration = 0;
 	myFolderspq.push(fisrtFolder); // O(Log M)
-	Folder temp;
 	for (int i = 0; i < inputFiles.size(); i++) {
+		Folder temp;
 		if (inputFiles[i].duration <= (maxDuration - myFolderspq.top().totalDuration)) {
 			temp = myFolderspq.top(); //O(1)
+			myFolderspq.pop(); // O(log M)
 			temp.files.push_back(inputFiles[i]); // O(1)
 			temp.totalDuration += inputFiles[i].duration; // O(1)
-			myFolderspq.pop(); // O(log M)
 			myFolderspq.push(temp); // O(Log M)
 		}
 		else {
-			temp.totalDuration = inputFiles[i].duration;;
+			temp.totalDuration = inputFiles[i].duration;
 			temp.files.push_back(inputFiles[i]); // O(1)
 			myFolderspq.push(temp); //O(Log M)
 		}
 	}
 	vector<Folder> myFolders;
-	for (int i = 0; i < myFolderspq.size(); i++) {
+	while (!myFolderspq.empty()) {
 		myFolders.push_back(myFolderspq.top()); // O(1)
 		myFolderspq.pop(); // O(log M)
 	}
 	return myFolders;
 }
 
+
 vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	vector<Folder> myFolders;
+	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction); // O(N Log N)
 	for (int i = 0; i < inputFiles.size(); i++) {
 		int k = 0;
 		for (int j = 0; j < myFolders.size(); j++) {
