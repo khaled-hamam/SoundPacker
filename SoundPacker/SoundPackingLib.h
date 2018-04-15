@@ -21,15 +21,6 @@ public:
 	std::vector<File> files;
 	int totalDuration;
 
-	int getTotalDuration() {
-		int totalFolderDuration = 0;
-		for (auto file : files) {
-			totalDuration += file.duration;
-		}
-
-		return totalFolderDuration;
-	}
-
 	static std::string getName(int i) {
 		std::stringstream ss; ss << i;
 		std::string folderNumber;  ss >> folderNumber;

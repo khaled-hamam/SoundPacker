@@ -14,26 +14,25 @@ bool compareFunction(File a, File b) {
 	return a.duration < b.duration; 
 }
 
-std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration) {
+vector<Folder> WorstFitLS(vector<File> files, int maxDuration) {
 	vector<Folder>folders;
 
+	
 	for (int i = 0; i < files.size(); i++) {
 		int index = -1;
 		int Max = -1;
 		for (int j = 0; j < folders.size(); j++) {
-			if (folders.empty()) {
-				folders.push_back(Folder());
-			}
-
-			if (MaxDuration - folders[j].getTotalDuration() >= files[i].duration) {
-				if (MaxDuration - folders[j].getTotalDuration()>Max) {
-					Max = MaxDuration - folders[j].getTotalDuration();
+			if (maxDuration - folders[j].totalDuration >= files[i].duration) {
+				if (maxDuration - folders[j].totalDuration>Max) {
+					Max = maxDuration - folders[j].totalDuration;
 					index = j;
 				}
 			}
 		}
 		if (index == -1) {
 			folders.push_back(Folder());
+			folders[folders.size() - 1].files.push_back(files[i]);
+			folders[folders.size() - 1].totalDuration += files[i].duration;
 		} else {
 			folders[index].files.push_back(files[i]);
 			folders[index].totalDuration += files[i].duration;
@@ -43,16 +42,20 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration) {
 	return folders;
 }
 
-std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration) {
+vector<Folder> WorstFitPQ(vector<File> files, int maxDuration) {
 	std::priority_queue<Folder, vector<Folder>, greater<Folder> >folders;
 
 	for (int i = 0; i < files.size(); i++) {
 		if (folders.empty()) {
-			Folder F;
-			folders.push(F);
+			folders.push(Folder());
+			Folder temp = folders.top();
+			folders.pop();
+			temp.files.push_back(files[i]);
+			temp.totalDuration += files[i].duration;
+			folders.push(temp);
 		}
 
-		if (MaxDuration - folders.top().totalDuration >= files[i].duration) {
+		else if (maxDuration - folders.top().totalDuration >= files[i].duration) {
 			Folder temp = folders.top();
 			folders.pop();
 			temp.files.push_back(files[i]);
@@ -60,6 +63,11 @@ std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration) {
 			folders.push(temp);
 		} else {
 			folders.push(Folder());
+			Folder temp = folders.top();
+			folders.pop();
+			temp.files.push_back(files[i]);
+			temp.totalDuration += files[i].duration;
+			folders.push(temp);
 		}
 	}
 
