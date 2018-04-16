@@ -82,32 +82,30 @@ vector<Folder> WorstFitPQ(vector<File> files, int maxDuration) {
 
 vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction);
-	vector<Folder> myFolders;
-	Folder fisrtFolder;
-	fisrtFolder.totalDuration = 0;
-	myFolders.push_back(fisrtFolder);
+	vector<Folder>folders;
 	for (int i = 0; i < inputFiles.size(); i++) {
-		int wstidx = -1;
-		int max = -1;
-		for (int j = 0; j < myFolders.size(); j++) {
-			if (maxDuration - myFolders[j].totalDuration >= inputFiles[i].duration) {
-				if (maxDuration - myFolders[j].totalDuration > max) {
-					max = maxDuration - myFolders[j].totalDuration;
-					wstidx = j;
+		int index = -1;
+		int Max = -1;
+		for (int j = 0; j < folders.size(); j++) {
+			if (maxDuration - folders[j].totalDuration >= inputFiles[i].duration) {
+				if (maxDuration - folders[j].totalDuration>Max) {
+					Max = maxDuration - folders[j].totalDuration;
+					index = j;
 				}
 			}
 		}
-		if (wstidx != -1) {
-			myFolders[wstidx].files.push_back(inputFiles[i]);
-			myFolders[wstidx].totalDuration += inputFiles[i].duration;
+		if (index == -1) {
+			folders.push_back(Folder());
+			folders[folders.size() - 1].files.push_back(inputFiles[i]);
+			folders[folders.size() - 1].totalDuration += inputFiles[i].duration;
 		}
 		else {
-			Folder newFolder;
-			newFolder.totalDuration = inputFiles[i].duration;
-			myFolders.push_back(newFolder);
+			folders[index].files.push_back(inputFiles[i]);
+			folders[index].totalDuration += inputFiles[i].duration;
 		}
 	}
-	return myFolders;
+
+	return folders;
 }
 
 vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
