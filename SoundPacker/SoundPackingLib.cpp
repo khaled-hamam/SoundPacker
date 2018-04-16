@@ -165,25 +165,25 @@ vector<Folder> bestFit(vector<File>files, int maxDuration){
 	vector<Folder>folders;
 	folders.push_back(Folder());
 	
-	for (int i=0 ; i<files.size() ; i++){
+	for (int i = 0; i < files.size(); i++){
 		int bestDurationInd = -1;
-		for (int j=0 ; j<folders.size() ; j++){
+		for (int j = 0; j < folders.size(); j++){
 			
 			int curDuration = maxDuration-folders[j].totalDuration;
 			
-			if( files[i].duration <= curDuration ){
+			if (files[i].duration <= curDuration ){
 				
-				if(bestDurationInd==-1){
+				if (bestDurationInd==-1){
 					bestDurationInd = j;
 				}
 				else {
-					if(folders[j].totalDuration < curDuration ){
+					if (folders[j].totalDuration < curDuration ){
 						bestDurationInd = j;
 					}
 				}
 			}
 		}
-		if(bestDurationInd==-1){
+		if (bestDurationInd==-1){
 			Folder folder;
 			folder.totalDuration = 0;
 			folder.totalDuration += files[i].duration;
@@ -196,7 +196,9 @@ vector<Folder> bestFit(vector<File>files, int maxDuration){
 	}
 	return folders;
 }
-vector<Folder> folderFilling(vector<File> files, int maxDuration, int dp[][351],bool store[][351]){
+int dp[10001][351];
+bool store[10001][351];
+vector<Folder> folderFilling(vector<File> files, int maxDuration){
 	
 		vector<Folder> folders;
 		while(!files.empty()){
@@ -206,14 +208,14 @@ vector<Folder> folderFilling(vector<File> files, int maxDuration, int dp[][351],
 
 			Folder folder;
 	
-			 for (int i=0 ; i<=files.size() ; i++){ 
-				for (int j=0 ; j<=maxDuration ; j++){
+			 for (int i=0; i <= files.size(); i++){ 
+				for (int j=0; j <= maxDuration; j++){
 						int duration = files[i-1].duration;
-						if(!i)
+						if (!i)
 						{
 							dp[i][j] = 0;
 						}	
-						else if( duration <= j && dp[i-1][j] < duration+dp[i-1][j-duration])
+						else if (duration <= j && dp[i-1][j] < duration+dp[i-1][j-duration])
 						{
 							dp[i][j] = duration + dp[i-1][j-duration];
 							store[i][j] = true;
@@ -225,8 +227,8 @@ vector<Folder> folderFilling(vector<File> files, int maxDuration, int dp[][351],
 					}	
 			}
 			int j = maxDuration;
-			for (int i = files.size() ; i>=1 ; i--){
-				if(store[i][j]){
+			for (int i = files.size(); i >= 1; i--){
+				if (store[i][j]){
 					folder.files.push_back(files[i-1]);
 					j-=files[i-1].duration;
 					swap(files[i-1],files.back());

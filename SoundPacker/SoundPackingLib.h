@@ -47,4 +47,4 @@ std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration);
 std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration);
 std::vector<Folder> bestFit(vector<File>files, int maxDuration);
-std::vector<Folder> folderFilling(vector<File> files, int maxDuration, int dp[][351],bool store[][351]);
+std::vector<Folder> folderFilling(vector<File> files, int maxDuration);
