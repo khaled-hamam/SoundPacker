@@ -21,6 +21,8 @@ public:
 	std::vector<File> files;
 	int totalDuration;
 
+	Folder() : name(""), totalDuration(0) {}
+
 	static std::string getName(int i) {
 		std::stringstream ss; ss << i;
 		std::string folderNumber;  ss >> folderNumber;
@@ -44,3 +46,5 @@ std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration);
 std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration);
 std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration);
 std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration);
+std::vector<Folder> bestFit(vector<File>files, int maxDuration);
+std::vector<Folder> folderFilling(vector<File> files, int maxDuration);
