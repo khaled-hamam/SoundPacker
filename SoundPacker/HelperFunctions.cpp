@@ -25,6 +25,13 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	else if (algorithm == FIRST_FIT) {
 		resultFolders = firstFitDecreasingLS(inputFiles, duration);
 	}
+	else if (algorithm == FOLDER_FILLING){
+
+		resultFolders = folderFilling(inputFiles, duration);
+	}
+	else if (algorithm == BEST_FIT) {
+		resultFolders = bestFit(inputFiles, duration);
+	}
 	else {
 		return -1;
 	}

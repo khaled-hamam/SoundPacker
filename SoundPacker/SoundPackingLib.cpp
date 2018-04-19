@@ -163,7 +163,6 @@ vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 vector<Folder> bestFit(vector<File>files, int maxDuration){
 	
 	vector<Folder>folders;
-	folders.push_back(Folder());
 	
 	for (int i = 0; i < files.size(); i++){
 		int bestDurationInd = -1;
@@ -183,14 +182,18 @@ vector<Folder> bestFit(vector<File>files, int maxDuration){
 				}
 			}
 		}
+
 		if (bestDurationInd==-1){
 			Folder folder;
 			folder.totalDuration = 0;
 			folder.totalDuration += files[i].duration;
+			folder.files.push_back(files[i]);
 			folders.push_back(folder);
 		}
 		else {
 			folders[bestDurationInd].totalDuration += files[i].duration;
+			folders[bestDurationInd].files.push_back(files[i]);
+
 		}
 		
 	}
@@ -210,19 +213,23 @@ vector<Folder> folderFilling(vector<File> files, int maxDuration){
 	
 			 for (int i=0; i <= files.size(); i++){ 
 				for (int j=0; j <= maxDuration; j++){
-						int duration = files[i-1].duration;
+						int duration = 0;
 						if (!i)
 						{
 							dp[i][j] = 0;
 						}	
-						else if (duration <= j && dp[i-1][j] < duration+dp[i-1][j-duration])
-						{
-							dp[i][j] = duration + dp[i-1][j-duration];
-							store[i][j] = true;
-						}
 						else {
-							dp[i][j] = dp[i-1][j];
-							store[i][j] = false;
+							duration = files[i - 1].duration;
+
+							if (duration <= j && dp[i - 1][j] < duration + dp[i - 1][j - duration])
+							{
+								dp[i][j] = duration + dp[i - 1][j - duration];
+								store[i][j] = true;
+							}
+							else {
+								dp[i][j] = dp[i - 1][j];
+								store[i][j] = false;
+							}
 						}
 					}	
 			}
