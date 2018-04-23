@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "HelperFunctions.h"
+#include <time.h>
 using namespace std;
 
 double runAlgorithm(string inputFile, string algorithm, int duration, bool allowCopy) {
@@ -10,6 +11,8 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 
 	// Running the Selected Algorithm
 	vector<Folder> resultFolders;
+	double startingTime = clock();
+
 	if (algorithm == WORST_FIT_LS) {
 		resultFolders = WorstFitLS(inputFiles, duration);
 	}
@@ -35,6 +38,10 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	else {
 		return -1;
 	}
+
+	// Calculate Time after algorithm
+	double endingTime = clock();
+	double runningTime = (endingTime - startingTime) * 1000.0 / CLOCKS_PER_SEC;
 
 	// Getting The Parent Folder Path of the Input Metadata File
 	string parentPath = inputFile;
@@ -69,7 +76,7 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	}
 
 	// Returning the Elapsed Algorithm Time
-	return 0;
+	return runningTime;
 }
 
 bool directoryExists(string directory) {
