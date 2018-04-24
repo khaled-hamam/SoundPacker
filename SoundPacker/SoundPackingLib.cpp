@@ -160,91 +160,93 @@ vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	}
 	return myFolders;
 }
-vector<Folder> bestFit(vector<File>files, int maxDuration){
-	
+vector<Folder> bestFit(vector<File>files, int maxDuration) {
+
 	vector<Folder>folders;
-	
-	for (int i = 0; i < files.size(); i++){
-		int bestDurationInd = -1;
-		for (int j = 0; j < folders.size(); j++){
-			
-			int curDuration = maxDuration-folders[j].totalDuration;
-			
-			if (files[i].duration <= curDuration ){
-				
-				if (bestDurationInd==-1){
-					bestDurationInd = j;
+
+	sort(files.rbegin(), files.rend(), compareFunction); // O(N Log N)
+
+	for (int i = 0; i<files.size(); i++) {		//O(N*N)
+		int bestDurationInd = -1;			//O(1)
+		for (int j = 0; j<folders.size(); j++) {	//O(N)
+
+			int curDuration = maxDuration - folders[j].totalDuration;	//O(1)
+
+			if (files[i].duration <= curDuration) {	//O(1)
+
+				if (bestDurationInd == -1) {	//O(1)
+					bestDurationInd = j;		//O(1)
 				}
 				else {
-					if (folders[j].totalDuration < curDuration ){
-						bestDurationInd = j;
+					if (folders[j].totalDuration < maxDuration - folders[bestDurationInd].totalDuration) //O(1)
+					{	
+						bestDurationInd = j;		//O(1)
 					}
 				}
 			}
 		}
-
-		if (bestDurationInd==-1){
-			Folder folder;
-			folder.totalDuration = 0;
-			folder.totalDuration += files[i].duration;
-			folder.files.push_back(files[i]);
-			folders.push_back(folder);
-		}
+		if (bestDurationInd == -1) {		//O(1)
+			Folder folder;					//O(1)
+			folder.totalDuration = 0;		//O(1)
+			folder.totalDuration += files[i].duration;		//O(1)
+			folder.files.push_back(files[i]);			//O(1)
+			folders.push_back(folder);		//O(1)
+		}	
 		else {
-			folders[bestDurationInd].totalDuration += files[i].duration;
-			folders[bestDurationInd].files.push_back(files[i]);
+			folders[bestDurationInd].totalDuration += files[i].duration;	//O(1)
+			folders[bestDurationInd].files.push_back(files[i]);		//O(1)
 
 		}
-		
+
 	}
-	return folders;
+	return folders;		//O(1)
 }
 int dp[10001][351];
 bool store[10001][351];
-vector<Folder> folderFilling(vector<File> files, int maxDuration){
-	
-		vector<Folder> folders;
-		while(!files.empty()){
-			
-			memset(dp, -1, sizeof dp);
-			memset(store, 0, sizeof store);
+vector<Folder> folderFilling(vector<File> files, int maxDuration) {
 
-			Folder folder;
-	
-			 for (int i=0; i <= files.size(); i++){ 
-				for (int j=0; j <= maxDuration; j++){
-						int duration = 0;
-						if (!i)
-						{
-							dp[i][j] = 0;
-						}	
-						else {
-							duration = files[i - 1].duration;
+	vector<Folder> folders;		//O(1)
+	int filesTaken = 0;			//O(1)
+	while (filesTaken<files.size()) {		//O(n*n*d)
 
-							if (duration <= j && dp[i - 1][j] < duration + dp[i - 1][j - duration])
-							{
-								dp[i][j] = duration + dp[i - 1][j - duration];
-								store[i][j] = true;
-							}
-							else {
-								dp[i][j] = dp[i - 1][j];
-								store[i][j] = false;
-							}
-						}
-					}	
-			}
-			int j = maxDuration;
-			for (int i = files.size(); i >= 1; i--){
-				if (store[i][j]){
-					folder.files.push_back(files[i-1]);
-					j-=files[i-1].duration;
-					swap(files[i-1],files.back());
-					files.pop_back();
+		memset(dp, -1, sizeof dp);			//O(n)
+		memset(store, 0, sizeof store);		//O(n)
+
+		Folder folder;					//O(1)
+
+		for (int i = 0; i <= files.size(); i++) {		//O(n*d)
+			for (int j = 0; j <= maxDuration; j++) {	//O(d)
+				int duration = 0;		//O(1)
+				if (!i)					//O(1)
+				{
+					dp[i][j] = 0;		//O(1)
+				}
+				else {
+					duration = files[i - 1].duration;	//O(1)
+
+					if (duration <= j && dp[i - 1][j] < duration + dp[i - 1][j - duration] && duration != -1)	//O(1)
+					{
+						dp[i][j] = duration + dp[i - 1][j - duration];		//O(1)
+						store[i][j] = true;									//O(1)
+					}
+					else {
+						dp[i][j] = dp[i - 1][j];				//O(1)
+						store[i][j] = false;					//O(1)
+					}
 				}
 			}
-			
-			
-			folders.push_back(folder);		
+		}	
+		int j = maxDuration;		//O(1)
+		for (int i = files.size(); i >= 1; i--) {		//O(n)
+			if (store[i][j]) {							//O(1)
+				folder.totalDuration += files[i - 1].duration;		//O(1)
+				folder.files.push_back(files[i - 1]);	//O(1)	
+				j -= files[i - 1].duration;			//O(1)
+				files[i - 1].duration = -1;			//O(1)
+				filesTaken++;			//O(1)
+			}
 		}
-		return folders;
+		folders.push_back(folder);			//O(1)
 	}
+	return folders;			//O(1)
+}
