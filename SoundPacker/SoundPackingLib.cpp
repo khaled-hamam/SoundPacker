@@ -71,8 +71,13 @@ vector<Folder> WorstFitPQ(vector<File> files, int maxDuration) {
 	return folder;
 }
 
-vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
-	sort(inputFiles.rbegin(), inputFiles.rend());
+vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration, bool multithreading) {
+	if (multithreading) {
+		// asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+	}
+	else {
+		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
+	}
 	vector<Folder>folders;
 	for (int i = 0; i < inputFiles.size(); i++) {
 		int index = -1;
@@ -99,9 +104,15 @@ vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	return folders;
 }
 
-vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
+vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration, bool multithreading) {
 	priority_queue < Folder, vector<Folder>, greater<Folder> > myFolderspq;
-	sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
+	if (multithreading) {
+		// asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+	}
+	else {
+		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
+	}
+
 	Folder fisrtFolder;
 	fisrtFolder.totalDuration = 0;
 	myFolderspq.push(fisrtFolder); // O(Log M)
@@ -128,9 +139,14 @@ vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
 	return myFolders;
 }
 
-vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
+vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration, bool multithreading) {
+	if (multithreading) {
+		// asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+	} else {
+		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
+	}
+
 	vector<Folder> myFolders;
-	sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	for (int i = 0; i < inputFiles.size(); i++) {
 		int k = 0;
 		for (int j = 0; j < myFolders.size(); j++) {

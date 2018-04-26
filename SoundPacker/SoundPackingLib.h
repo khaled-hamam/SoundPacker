@@ -51,8 +51,8 @@ const std::string MULTITHREADING	= "Multithreading Algorithm";
 
 std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration);
 std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration);
-std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration);
-std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration);
-std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration);
+std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration, bool multithreading);
+std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration, bool multithreading);
+std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration, bool multithreading);
 std::vector<Folder> bestFit(std::vector<File>files, int maxDuration);
 std::vector<Folder> folderFilling(std::vector<File> files, int maxDuration);
