@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
-#include <string>
-#include <vector>
 #include <queue>
-#include <functional>
 #include <sstream>
+#include <vector>
+#include <string>
+#include <functional>
 
 class File {
 public:
@@ -13,6 +13,10 @@ public:
 
 	File() : name(""), duration(0) {}
 	File(std::string name, int duration) : name(name), duration(duration) {}
+    
+    friend bool operator < (const File& a, const File& b) {
+        return a.duration < b.duration;
+    }
 };
 
 class Folder {
@@ -29,8 +33,11 @@ public:
 		return 'F' + folderNumber;
 	}
 
-	const friend bool operator > (const Folder &a, const Folder &b);
+	friend bool operator > (const Folder &a, const Folder &b) {
+        return a.totalDuration > b.totalDuration;
+    }
 };
+
 
 const std::string WORST_FIT_LS		= "Worst Fit Linear Search";
 const std::string WORST_FIT_PQ		= "Worst Fit Priority Queue";
@@ -40,6 +47,7 @@ const std::string FIRST_FIT			= "First Fit";
 const std::string BEST_FIT			= "Best Fit";
 const std::string FOLDER_FILLING	= "Folder Filling";
 const std::string MULTITHREADING	= "Multithreading Algorithm";
+
 
 std::vector<Folder> WorstFitLS(std::vector<File> files, int MaxDuration);
 std::vector<Folder> WorstFitPQ(std::vector<File> files, int MaxDuration);

@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "HelperFunctions.h"
-#include <time.h>
 using namespace std;
 
-double runAlgorithm(string inputFile, string algorithm, int duration, bool allowCopy) {
+double runAlgorithm(string inputFile, string algorithm, int duration, bool allowCopy, bool multithreading) {
 	// Reading the Input File and Parsing the input to vector<File>
 	vector<File> inputFiles = parseInput(inputFile);
 

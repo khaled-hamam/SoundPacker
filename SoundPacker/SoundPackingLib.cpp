@@ -1,18 +1,9 @@
 #include "stdafx.h"
 #include "SoundPackingLib.h"
-#include "HelperFunctions.h"
 
 using namespace std;
 using namespace System;
 using namespace System::Diagnostics;
-
-const bool operator>(const Folder &a, const Folder &b) {
-	return a.totalDuration > b.totalDuration;
-}
-
-bool compareFunction(File a, File b) { 
-	return a.duration < b.duration; 
-}
 
 vector<Folder> WorstFitLS(vector<File> files, int maxDuration) {
 	vector<Folder>folders;
@@ -81,7 +72,7 @@ vector<Folder> WorstFitPQ(vector<File> files, int maxDuration) {
 }
 
 vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
-	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction);
+	sort(inputFiles.rbegin(), inputFiles.rend());
 	vector<Folder>folders;
 	for (int i = 0; i < inputFiles.size(); i++) {
 		int index = -1;
@@ -110,7 +101,7 @@ vector<Folder> worstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 
 vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
 	priority_queue < Folder, vector<Folder>, greater<Folder> > myFolderspq;
-	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction); // O(N Log N)
+	sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	Folder fisrtFolder;
 	fisrtFolder.totalDuration = 0;
 	myFolderspq.push(fisrtFolder); // O(Log M)
@@ -137,10 +128,9 @@ vector<Folder> worstFitDecreasingPQ(vector<File> inputFiles, int maxDuration) {
 	return myFolders;
 }
 
-
 vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	vector<Folder> myFolders;
-	sort(inputFiles.rbegin(), inputFiles.rend(), compareFunction); // O(N Log N)
+	sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	for (int i = 0; i < inputFiles.size(); i++) {
 		int k = 0;
 		for (int j = 0; j < myFolders.size(); j++) {
@@ -160,11 +150,12 @@ vector<Folder> firstFitDecreasingLS(vector<File> inputFiles, int maxDuration) {
 	}
 	return myFolders;
 }
-vector<Folder> bestFit(vector<File>files, int maxDuration) {
+
+vector<Folder> bestFit(vector<File> files, int maxDuration) {
 
 	vector<Folder>folders;
 
-	sort(files.rbegin(), files.rend(), compareFunction); // O(N Log N)
+	sort(files.rbegin(), files.rend()); // O(N Log N)
 
 	for (int i = 0; i<files.size(); i++) {		//O(N*N)
 		int bestDurationInd = -1;			//O(1)
@@ -201,6 +192,7 @@ vector<Folder> bestFit(vector<File>files, int maxDuration) {
 	}
 	return folders;		//O(1)
 }
+
 int dp[10001][351];
 bool store[10001][351];
 vector<Folder> folderFilling(vector<File> files, int maxDuration) {

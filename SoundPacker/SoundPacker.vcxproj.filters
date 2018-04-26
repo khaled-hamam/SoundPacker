@@ -30,6 +30,9 @@
     <ClInclude Include="SoundPackingLib.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="AsyncSort.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -53,6 +56,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="SoundPackingLib.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncSort.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
