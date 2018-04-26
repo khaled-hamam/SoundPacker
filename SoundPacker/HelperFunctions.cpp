@@ -19,13 +19,13 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 		resultFolders = WorstFitPQ(inputFiles, duration);
 	}
 	else if (algorithm == WORST_FIT_DEC_LS) {
-		resultFolders = worstFitDecreasingLS(inputFiles, duration);
+		resultFolders = worstFitDecreasingLS(inputFiles, duration, multithreading);
 	}
 	else if (algorithm == WORST_FIT_DEC_PQ) {
-		resultFolders = worstFitDecreasingPQ(inputFiles, duration);
+		resultFolders = worstFitDecreasingPQ(inputFiles, duration, multithreading);
 	}
 	else if (algorithm == FIRST_FIT) {
-		resultFolders = firstFitDecreasingLS(inputFiles, duration);
+		resultFolders = firstFitDecreasingLS(inputFiles, duration, multithreading);
 	}
 	else if (algorithm == FOLDER_FILLING){
 
