@@ -5,4 +5,15 @@
 
 #pragma once
 
+#include <iostream>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <Windows.h>
+#include <fstream>
+#include <time.h>
+
 // TODO: Refer to additional headers required by the program here.

@@ -1,7 +1,5 @@
 #pragma once
-#include "stdafx.h"
-#include <algorithm>
-#include "SoundPackingLib.h"
+#include "Models.h"
 
 typedef std::vector<File>::iterator Iterator;
 typedef array<Iterator *> Parameters;

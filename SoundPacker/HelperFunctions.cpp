@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "HelperFunctions.h"
-using namespace std;
 
-double runAlgorithm(string inputFile, string algorithm, int duration, bool allowCopy, bool multithreading) {
+double runAlgorithm(std::string inputFile, std::string algorithm, int duration, bool allowCopy, bool multithreading) {
 	// Reading the Input File and Parsing the input to vector<File>
-	vector<File> inputFiles = parseInput(inputFile);
+	std::vector<File> inputFiles = parseInput(inputFile);
 
 	// TODO: Calculating the Running Time of the Algorithm
 
 	// Running the Selected Algorithm
-	vector<Folder> resultFolders;
+	std::vector<Folder> resultFolders;
 	double startingTime = clock();
 
 	if (algorithm == WORST_FIT_LS) {
@@ -43,7 +42,7 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	double runningTime = (endingTime - startingTime) * 1000.0 / CLOCKS_PER_SEC;
 
 	// Getting The Parent Folder Path of the Input Metadata File
-	string parentPath = inputFile;
+	std::string parentPath = inputFile;
 	while (parentPath.back() != '\\') {  // Removing the File Name from the Path
 		parentPath.pop_back();
 	}
@@ -62,7 +61,7 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	// Copy the files to the destination folder if allowCopy == true
 	if (allowCopy) {
 		// Getting Input Files Path from The Parent Folder path
-		string audioFilesPath = parentPath + "Audios";  // The Path now = {ParentFolder}\Audios
+		std::string audioFilesPath = parentPath + "Audios";  // The Path now = {ParentFolder}\Audios
 
 		for (auto folder: resultFolders) {
 			createFolder(folder.name, parentPath + "Packed Files\\" + algorithm);
@@ -78,7 +77,7 @@ double runAlgorithm(string inputFile, string algorithm, int duration, bool allow
 	return runningTime;
 }
 
-bool directoryExists(string directory) {
+bool directoryExists(std::string directory) {
 	DWORD attributes = GetFileAttributesA(directory.c_str());
 
 	if (attributes == INVALID_FILE_ATTRIBUTES)
@@ -87,18 +86,18 @@ bool directoryExists(string directory) {
 	return (attributes & FILE_ATTRIBUTE_DIRECTORY);
 }
 
-void createFolder(string name, string path) {
-	string folderDirectory = path + '\\' + name;
+void createFolder(std::string name, std::string path) {
+	std::string folderDirectory = path + '\\' + name;
 	if (!directoryExists(folderDirectory)) {
-		string command = "mkdir \"" + folderDirectory + '"';
+		std::string command = "mkdir \"" + folderDirectory + '"';
 		bool errorValue = system(command.c_str());
 		if (errorValue)
 			throw "Error in Creating the Folder";
 	}
 }
 
-void copyFile(string name, string origin, string destination) {
-	string destinationDirectory = destination + '\\' + name,
+void copyFile(std::string name, std::string origin,std::string destination) {
+	std::string destinationDirectory = destination + '\\' + name,
 		originDirectory = origin + '\\' + name,
 		command = "copy \"" + originDirectory + "\" \"" + destinationDirectory + '"';
 
@@ -107,28 +106,28 @@ void copyFile(string name, string origin, string destination) {
 		throw "Error in Copying the File";
 }
 
-void generateMetadata(vector<Folder> folders, string destination) {
-	fstream metaDataFile(destination + '\\' + "metadata.txt", fstream::out);
+void generateMetadata(std::vector<Folder> folders, std::string destination) {
+	std::fstream metaDataFile(destination + '\\' + "metadata.txt", std::fstream::out);
 
 	for (auto folder : folders) {
 		metaDataFile << "|Folder: " << folder.name << '\n'
-			<< '|' << string(2, '-') << "Content: (" << folder.files.size() << " Audio Files, Total Duration: "
+			<< '|' << std::string(2, '-') << "Content: (" << folder.files.size() << " Audio Files, Total Duration: "
 			<< folder.totalDuration << " Seconds)\n";
 		for (auto file : folder.files) {
-			metaDataFile << '|' << string(4, '-') << "File: " << file.name << '\t' << "Duration: " << file.duration << " Seconds \n";
+			metaDataFile << '|' << std::string(4, '-') << "File: " << file.name << '\t' << "Duration: " << file.duration << " Seconds \n";
 		}
 		metaDataFile << "\n\n";
 	}
 }
 
 std::vector<File> parseInput(std::string inputFile) {
-	vector<File> inputFiles; int nFiles;
-	fstream file(inputFile, fstream::in);
+	std::vector<File> inputFiles; int nFiles;
+	std::fstream file(inputFile, std::fstream::in);
 	
 	file >> nFiles;
 	for (int i = 0; i < nFiles; ++i) {
-		string fileName; file >> fileName;
-		string durationString; file >> durationString;
+		std::string fileName; file >> fileName;
+		std::string durationString; file >> durationString;
 		inputFiles.push_back(File(fileName, parseDurationString(durationString)));
 	}
 
@@ -137,7 +136,7 @@ std::vector<File> parseInput(std::string inputFile) {
 
 int parseDurationString(std::string durationString) {
 	int hours, minutes, seconds;
-	stringstream ss;
+	std::stringstream ss;
 
 	// Parsing the Hours
 	int hoursPartition = durationString.find(":");

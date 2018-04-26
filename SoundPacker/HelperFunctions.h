@@ -1,10 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <time.h>
 #include "SoundPackingLib.h"
 
 double runAlgorithm(std::string inputFile, std::string algorithm, int duration, bool allowCopy, bool multithreading);
