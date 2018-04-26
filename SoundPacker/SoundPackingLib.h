@@ -1,5 +1,8 @@
 #pragma once
-#include "AsyncSort.h"
+#include "Models.h"
+
+typedef std::vector<File>::reverse_iterator Iterator;
+typedef array<Iterator *> Parameters;
 
 const std::string WORST_FIT_LS		= "Worst Fit Linear Search";
 const std::string WORST_FIT_PQ		= "Worst Fit Priority Queue";

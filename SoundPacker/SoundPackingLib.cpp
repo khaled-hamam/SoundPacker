@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SoundPackingLib.h"
+#include "AsyncSort.h"
 using namespace System;
 using namespace System::Diagnostics;
 
@@ -71,7 +71,7 @@ std::vector<Folder> WorstFitPQ(std::vector<File> files, int maxDuration) {
 
 std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	if (multithreading) {
-	    asyncMergeSort(inputFiles.begin(), inputFiles.end());
+	    asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
 	} else {
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
@@ -104,7 +104,7 @@ std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	std::priority_queue < Folder, std::vector<Folder>, std::greater<Folder> > myFolderspq;
 	if (multithreading) {
-        // asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+        asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
 	} else {
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
@@ -137,7 +137,7 @@ std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDu
 
 std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	if (multithreading) {
-		// asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+		asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
 	} else {
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
