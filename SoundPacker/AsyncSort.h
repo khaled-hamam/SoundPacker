@@ -29,19 +29,24 @@ void AsyncSort::asyncMergeSort(Object^ params) {
     auto const middle = begin + (end - begin) / 2;  // Calculating the middle position iterator
 
     if (end - middle > 1) {  // Remaining elements > 2
+        // Initializing new Iterators Pointers
+        Iterator *bIt = new Iterator(begin);
+        Iterator *mIt = new Iterator(middle);
+        Iterator *eIt = new Iterator(end);
+
         // Launching synchronous operations if Working Threads reached the maximum number
         if (AsyncSort::workingThreads > AsyncSort::maxWorkingThreads) {
             std::sort(begin, middle);  // Removing the options of async using std::sort to the left half
-            AsyncSort::asyncMergeSort(gcnew Parameters { new Iterator(middle), new Iterator(end) });  // Keeping the async option in future iterations to the right half
+            AsyncSort::asyncMergeSort(gcnew Parameters { mIt, eIt });  // Keeping the async option in future iterations to the right half
         } else {
             // Launching 2 asyncMergeSort threads
             AsyncSort::workingThreads++;
             Thread^ leftThread = gcnew Thread(gcnew ParameterizedThreadStart(&AsyncSort::asyncMergeSort));
-            leftThread->Start(gcnew Parameters { new Iterator(begin), new Iterator(middle)});
+            leftThread->Start(gcnew Parameters { bIt, mIt });
 
             AsyncSort::workingThreads++;
             Thread^ rightThread = gcnew Thread(gcnew ParameterizedThreadStart(&AsyncSort::asyncMergeSort));
-            rightThread->Start(gcnew Parameters { new Iterator(middle), new Iterator(end) });
+            rightThread->Start(gcnew Parameters { mIt, eIt });
 
             // Waiting for the Threads to Finish
             leftThread->Join();
@@ -50,6 +55,11 @@ void AsyncSort::asyncMergeSort(Object^ params) {
             rightThread->Join();
             AsyncSort::workingThreads--;
         }
+
+        // Deleting the Iterators Pointers
+        delete bIt;
+        delete mIt;
+        delete eIt;
     }
 
     // Merging the Two Halves
