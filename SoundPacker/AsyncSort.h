@@ -13,7 +13,12 @@ public:
 };
 
 void asyncMergeSort(Iterator begin, Iterator end) {
-    AsyncSort::asyncMergeSort(gcnew Parameters { new Iterator(begin), new Iterator(end) });
+    Iterator *bIt = new Iterator(begin);
+    Iterator *eIt = new Iterator(end);
+    AsyncSort::asyncMergeSort(gcnew Parameters { bIt, eIt });
+
+    delete bIt;
+    delete eIt;
 }
 
 void AsyncSort::asyncMergeSort(Object^ params) {
