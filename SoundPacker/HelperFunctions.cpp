@@ -39,7 +39,7 @@ double runAlgorithm(std::string inputFile, std::string algorithm, int duration, 
 
 	// Calculate Time after algorithm
 	double endingTime = clock();
-	double runningTime = (endingTime - startingTime) * 1000.0 / CLOCKS_PER_SEC;
+	double runningTime = (endingTime - startingTime) / CLOCKS_PER_SEC;
 
 	// Getting The Parent Folder Path of the Input Metadata File
 	std::string parentPath = inputFile;
