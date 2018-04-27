@@ -167,8 +167,6 @@ std::vector<Folder> bestFit(std::vector<File> files, int maxDuration) {
 
 	std::vector<Folder>folders;
 
-	sort(files.rbegin(), files.rend()); // O(N Log N)
-
 	for (int i = 0; i<files.size(); i++) {		//O(N*N)
 		int bestDurationInd = -1;			//O(1)
 		for (int j = 0; j<folders.size(); j++) {	//O(N)
