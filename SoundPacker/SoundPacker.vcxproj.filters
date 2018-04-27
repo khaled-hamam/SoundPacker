@@ -61,9 +61,6 @@
     <ClCompile Include="SoundPackingLib.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="AsyncSort.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">

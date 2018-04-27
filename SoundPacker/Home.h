@@ -64,8 +64,13 @@ namespace SoundPacker {
     private: System::Windows::Forms::Label^  label1;
     private: System::Windows::Forms::CheckBox^  allowCopyCheck;
     private: System::Windows::Forms::Label^  outputLabel;
-    private: System::Windows::Forms::Panel^  mainPanel;
+
     private: System::Windows::Forms::CheckBox^  multithreadingCheckBox;
+    private: System::Windows::Forms::Label^  packerTitle;
+    private: System::Windows::Forms::Label^  soundTitle;
+
+
+
 
 
 
@@ -103,18 +108,18 @@ namespace SoundPacker {
             this->label1 = (gcnew System::Windows::Forms::Label());
             this->allowCopyCheck = (gcnew System::Windows::Forms::CheckBox());
             this->outputLabel = (gcnew System::Windows::Forms::Label());
-            this->mainPanel = (gcnew System::Windows::Forms::Panel());
             this->multithreadingCheckBox = (gcnew System::Windows::Forms::CheckBox());
-            this->mainPanel->SuspendLayout();
+            this->packerTitle = (gcnew System::Windows::Forms::Label());
+            this->soundTitle = (gcnew System::Windows::Forms::Label());
             this->SuspendLayout();
             // 
             // durationTextBox
             // 
             this->durationTextBox->Anchor = System::Windows::Forms::AnchorStyles::None;
             this->durationTextBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-            this->durationTextBox->Location = System::Drawing::Point(22, 72);
+            this->durationTextBox->Location = System::Drawing::Point(44, 89);
             this->durationTextBox->Name = L"durationTextBox";
-            this->durationTextBox->Size = System::Drawing::Size(150, 20);
+            this->durationTextBox->Size = System::Drawing::Size(250, 20);
             this->durationTextBox->TabIndex = 3;
             this->durationTextBox->Text = L"HH:MM:SS";
             this->durationTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
@@ -127,10 +132,11 @@ namespace SoundPacker {
             this->fileNameLabel->Anchor = System::Windows::Forms::AnchorStyles::None;
             this->fileNameLabel->BackColor = System::Drawing::Color::White;
             this->fileNameLabel->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->fileNameLabel->Location = System::Drawing::Point(21, 150);
+            this->fileNameLabel->ForeColor = System::Drawing::Color::Black;
+            this->fileNameLabel->Location = System::Drawing::Point(45, 180);
             this->fileNameLabel->Margin = System::Windows::Forms::Padding(0);
             this->fileNameLabel->Name = L"fileNameLabel";
-            this->fileNameLabel->Size = System::Drawing::Size(78, 25);
+            this->fileNameLabel->Size = System::Drawing::Size(170, 25);
             this->fileNameLabel->TabIndex = 1;
             this->fileNameLabel->Text = L"Drag File Here";
             this->fileNameLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -140,10 +146,11 @@ namespace SoundPacker {
             // algorithmsComboBox
             // 
             this->algorithmsComboBox->Anchor = System::Windows::Forms::AnchorStyles::None;
+            this->algorithmsComboBox->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
             this->algorithmsComboBox->FormattingEnabled = true;
-            this->algorithmsComboBox->Location = System::Drawing::Point(24, 111);
+            this->algorithmsComboBox->Location = System::Drawing::Point(44, 135);
             this->algorithmsComboBox->Name = L"algorithmsComboBox";
-            this->algorithmsComboBox->Size = System::Drawing::Size(150, 21);
+            this->algorithmsComboBox->Size = System::Drawing::Size(250, 21);
             this->algorithmsComboBox->TabIndex = 4;
             this->algorithmsComboBox->Text = L"Choose Algorithm";
             this->algorithmsComboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &Home::selectedAlgorithmChanged);
@@ -151,103 +158,135 @@ namespace SoundPacker {
             // chooseFileButton
             // 
             this->chooseFileButton->Anchor = System::Windows::Forms::AnchorStyles::None;
+            this->chooseFileButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(45)), static_cast<System::Int32>(static_cast<System::Byte>(157)),
+                static_cast<System::Int32>(static_cast<System::Byte>(213)));
             this->chooseFileButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->chooseFileButton->Location = System::Drawing::Point(99, 150);
+            this->chooseFileButton->ForeColor = System::Drawing::Color::White;
+            this->chooseFileButton->Location = System::Drawing::Point(214, 180);
             this->chooseFileButton->Margin = System::Windows::Forms::Padding(0);
             this->chooseFileButton->Name = L"chooseFileButton";
-            this->chooseFileButton->Size = System::Drawing::Size(75, 25);
+            this->chooseFileButton->Size = System::Drawing::Size(80, 25);
             this->chooseFileButton->TabIndex = 0;
             this->chooseFileButton->Text = L"Choose File";
-            this->chooseFileButton->UseVisualStyleBackColor = true;
+            this->chooseFileButton->UseVisualStyleBackColor = false;
             this->chooseFileButton->Click += gcnew System::EventHandler(this, &Home::chooseFile);
             // 
             // runButton
             // 
             this->runButton->Anchor = System::Windows::Forms::AnchorStyles::None;
+            this->runButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(45)), static_cast<System::Int32>(static_cast<System::Byte>(157)),
+                static_cast<System::Int32>(static_cast<System::Byte>(213)));
             this->runButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->runButton->Location = System::Drawing::Point(24, 243);
+            this->runButton->Location = System::Drawing::Point(44, 274);
             this->runButton->Name = L"runButton";
-            this->runButton->Size = System::Drawing::Size(150, 25);
+            this->runButton->Size = System::Drawing::Size(250, 30);
             this->runButton->TabIndex = 5;
             this->runButton->Text = L"Run";
-            this->runButton->UseVisualStyleBackColor = true;
+            this->runButton->UseVisualStyleBackColor = false;
             this->runButton->Click += gcnew System::EventHandler(this, &Home::run);
             // 
             // label1
             // 
             this->label1->Anchor = System::Windows::Forms::AnchorStyles::None;
             this->label1->AutoSize = true;
-            this->label1->Location = System::Drawing::Point(21, 56);
+            this->label1->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+                static_cast<System::Byte>(0)));
+            this->label1->Location = System::Drawing::Point(41, 72);
             this->label1->Name = L"label1";
-            this->label1->Size = System::Drawing::Size(81, 13);
+            this->label1->Size = System::Drawing::Size(86, 14);
             this->label1->TabIndex = 2;
-            this->label1->Text = L"Duration/Folder";
+            this->label1->Text = L"Duration / Folder";
             // 
             // allowCopyCheck
             // 
             this->allowCopyCheck->Anchor = System::Windows::Forms::AnchorStyles::None;
             this->allowCopyCheck->AutoSize = true;
+            this->allowCopyCheck->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(38)), static_cast<System::Int32>(static_cast<System::Byte>(38)),
+                static_cast<System::Int32>(static_cast<System::Byte>(46)));
             this->allowCopyCheck->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->allowCopyCheck->Location = System::Drawing::Point(39, 189);
+            this->allowCopyCheck->ForeColor = System::Drawing::Color::Transparent;
+            this->allowCopyCheck->Location = System::Drawing::Point(73, 232);
             this->allowCopyCheck->Name = L"allowCopyCheck";
             this->allowCopyCheck->Size = System::Drawing::Size(75, 17);
             this->allowCopyCheck->TabIndex = 7;
             this->allowCopyCheck->Text = L"Allow Copy";
-            this->allowCopyCheck->UseVisualStyleBackColor = true;
+            this->allowCopyCheck->UseVisualStyleBackColor = false;
             // 
             // outputLabel
             // 
-            this->outputLabel->Location = System::Drawing::Point(3, 273);
+            this->outputLabel->Font = (gcnew System::Drawing::Font(L"Arial", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+                static_cast<System::Byte>(0)));
+            this->outputLabel->Location = System::Drawing::Point(68, 323);
             this->outputLabel->Name = L"outputLabel";
             this->outputLabel->Size = System::Drawing::Size(194, 23);
             this->outputLabel->TabIndex = 7;
             this->outputLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
             // 
-            // mainPanel
-            // 
-            this->mainPanel->AllowDrop = true;
-            this->mainPanel->Anchor = System::Windows::Forms::AnchorStyles::None;
-            this->mainPanel->Controls->Add(this->multithreadingCheckBox);
-            this->mainPanel->Controls->Add(this->outputLabel);
-            this->mainPanel->Controls->Add(this->allowCopyCheck);
-            this->mainPanel->Controls->Add(this->label1);
-            this->mainPanel->Controls->Add(this->runButton);
-            this->mainPanel->Controls->Add(this->chooseFileButton);
-            this->mainPanel->Controls->Add(this->algorithmsComboBox);
-            this->mainPanel->Controls->Add(this->fileNameLabel);
-            this->mainPanel->Controls->Add(this->durationTextBox);
-            this->mainPanel->Location = System::Drawing::Point(22, 1);
-            this->mainPanel->Name = L"mainPanel";
-            this->mainPanel->Size = System::Drawing::Size(200, 311);
-            this->mainPanel->TabIndex = 6;
-            // 
             // multithreadingCheckBox
             // 
             this->multithreadingCheckBox->AutoSize = true;
+            this->multithreadingCheckBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(38)),
+                static_cast<System::Int32>(static_cast<System::Byte>(38)), static_cast<System::Int32>(static_cast<System::Byte>(46)));
             this->multithreadingCheckBox->Enabled = false;
-            this->multithreadingCheckBox->Location = System::Drawing::Point(39, 212);
+            this->multithreadingCheckBox->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+            this->multithreadingCheckBox->Location = System::Drawing::Point(173, 232);
             this->multithreadingCheckBox->Name = L"multithreadingCheckBox";
-            this->multithreadingCheckBox->Size = System::Drawing::Size(120, 17);
+            this->multithreadingCheckBox->Size = System::Drawing::Size(89, 17);
             this->multithreadingCheckBox->TabIndex = 8;
-            this->multithreadingCheckBox->Text = L"Allow Multithreading";
-            this->multithreadingCheckBox->UseVisualStyleBackColor = true;
+            this->multithreadingCheckBox->Text = L"Multithreading";
+            this->multithreadingCheckBox->UseVisualStyleBackColor = false;
+            // 
+            // packerTitle
+            // 
+            this->packerTitle->AutoSize = true;
+            this->packerTitle->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+                static_cast<System::Byte>(0)));
+            this->packerTitle->Location = System::Drawing::Point(70, 14);
+            this->packerTitle->Margin = System::Windows::Forms::Padding(0);
+            this->packerTitle->Name = L"packerTitle";
+            this->packerTitle->Size = System::Drawing::Size(77, 19);
+            this->packerTitle->TabIndex = 9;
+            this->packerTitle->Text = L"PACKER";
+            // 
+            // soundTitle
+            // 
+            this->soundTitle->AutoSize = true;
+            this->soundTitle->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+                static_cast<System::Byte>(0)));
+            this->soundTitle->Location = System::Drawing::Point(10, 14);
+            this->soundTitle->Name = L"soundTitle";
+            this->soundTitle->Size = System::Drawing::Size(65, 18);
+            this->soundTitle->TabIndex = 10;
+            this->soundTitle->Text = L"SOUND";
             // 
             // Home
             // 
             this->AccessibleName = L"Sound Packer";
             this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(244, 311);
-            this->Controls->Add(this->mainPanel);
+            this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(38)), static_cast<System::Int32>(static_cast<System::Byte>(38)),
+                static_cast<System::Int32>(static_cast<System::Byte>(46)));
+            this->ClientSize = System::Drawing::Size(334, 411);
+            this->Controls->Add(this->packerTitle);
+            this->Controls->Add(this->multithreadingCheckBox);
+            this->Controls->Add(this->outputLabel);
+            this->Controls->Add(this->runButton);
+            this->Controls->Add(this->allowCopyCheck);
+            this->Controls->Add(this->durationTextBox);
+            this->Controls->Add(this->label1);
+            this->Controls->Add(this->fileNameLabel);
+            this->Controls->Add(this->algorithmsComboBox);
+            this->Controls->Add(this->chooseFileButton);
+            this->Controls->Add(this->soundTitle);
+            this->ForeColor = System::Drawing::Color::White;
             this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->MaximizeBox = false;
-            this->MaximumSize = System::Drawing::Size(260, 350);
-            this->MinimumSize = System::Drawing::Size(260, 350);
+            this->MaximumSize = System::Drawing::Size(350, 450);
+            this->MinimumSize = System::Drawing::Size(350, 450);
             this->Name = L"Home";
             this->Text = L"Sound Packer";
-            this->mainPanel->ResumeLayout(false);
-            this->mainPanel->PerformLayout();
             this->ResumeLayout(false);
+            this->PerformLayout();
 
         }
 #pragma endregion
@@ -338,7 +377,7 @@ namespace SoundPacker {
             bool multithreading = multithreadingCheckBox->Checked;
 
 			Double timeElapsed = runAlgorithm(chosenFile, chosenAlgorithm, duration, allowCopy, multithreading);
-			outputLabel->Text = "Time Elapsed: " + timeElapsed.ToString();
+			outputLabel->Text = "Time Elapsed: " + timeElapsed.ToString() + " Seconds";
 		}
 
         private: System::Void selectedAlgorithmChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -346,7 +385,7 @@ namespace SoundPacker {
             std::string chosenAlgorithm = context.marshal_as<std::string>(Convert::ToString(algorithmsComboBox->SelectedItem));
 
             if (chosenAlgorithm == WORST_FIT_DEC_LS || chosenAlgorithm == WORST_FIT_DEC_PQ ||
-                chosenAlgorithm == FIRST_FIT || chosenAlgorithm == BEST_FIT) {
+                chosenAlgorithm == FIRST_FIT) {
                 multithreadingCheckBox->Enabled = true;
             } else {
                 multithreadingCheckBox->Enabled = false;

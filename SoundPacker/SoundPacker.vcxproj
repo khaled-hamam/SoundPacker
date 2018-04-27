@@ -158,7 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="AsyncSort.cpp" />
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="SoundPacker.cpp" />
     <ClCompile Include="Home.cpp" />
