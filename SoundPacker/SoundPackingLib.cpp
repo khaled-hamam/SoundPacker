@@ -76,25 +76,25 @@ std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
 	std::vector<Folder>folders;
-	for (int i = 0; i < inputFiles.size(); i++) {  // O(N X M)
-		int index = -1;  // O(1)
-		int Max = -1;    // O(1)
-		for (int j = 0; j < folders.size(); j++) {   // O(M)
-			if (maxDuration - folders[j].totalDuration >= inputFiles[i].duration) { // O(1)
-				if (maxDuration - folders[j].totalDuration>Max) {  // O(1)
-					Max = maxDuration - folders[j].totalDuration;  // O(1)
-					index = j;  // O(1)
+	for (int i = 0; i < inputFiles.size(); i++) { // O ( N x M )
+		int index = -1;		// O(1)
+		int Max = -1;		// O(1)
+		for (int j = 0; j < folders.size(); j++) {		// O(M)
+			if (maxDuration - folders[j].totalDuration >= inputFiles[i].duration) {		// O(1)
+				if (maxDuration - folders[j].totalDuration>Max) {		//O(1)
+					Max = maxDuration - folders[j].totalDuration;		// O(1)
+					index = j;		// O(1)
 				}
 			}
 		}
-		if (index == -1) {
-			folders.push_back(Folder());  // O(1)
-			folders[folders.size() - 1].files.push_back(inputFiles[i]);  // O(1)
-			folders[folders.size() - 1].totalDuration += inputFiles[i].duration;  // O(1)
+		if (index == -1) {  // O(1)
+			folders.push_back(Folder());	// O(1)
+			folders[folders.size() - 1].files.push_back(inputFiles[i]);		// O(1)
+			folders[folders.size() - 1].totalDuration += inputFiles[i].duration;  //O(1)
 		}
 		else {
-			folders[index].files.push_back(inputFiles[i]);  // O(1)
-			folders[index].totalDuration += inputFiles[i].duration;  // O(1)
+			folders[index].files.push_back(inputFiles[i]); //O(1)
+			folders[index].totalDuration += inputFiles[i].duration; // O(1)
 		}
 	}
 
@@ -113,7 +113,7 @@ std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDu
 	Folder fisrtFolder;
 	fisrtFolder.totalDuration = 0;
 	myFolderspq.push(fisrtFolder); // O(Log M)
-	for (int i = 0; i < inputFiles.size(); i++) {
+	for (int i = 0; i < inputFiles.size(); i++) {  // O(N * Log M )
 		Folder temp;
 		if (inputFiles[i].duration <= (maxDuration - myFolderspq.top().totalDuration)) {
 			temp = myFolderspq.top(); //O(1)
@@ -129,7 +129,7 @@ std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDu
 		}
 	}
 	std::vector<Folder> myFolders;
-	while (!myFolderspq.empty()) {
+	while (!myFolderspq.empty()) {  // O(M log M )
 		myFolders.push_back(myFolderspq.top()); // O(1)
 		myFolderspq.pop(); // O(log M)
 	}
@@ -144,21 +144,21 @@ std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 	}
 
 	std::vector<Folder> myFolders;
-	for (int i = 0; i < inputFiles.size(); i++) {  // O(N X M)
-		int k = 0;
-		for (int j = 0; j < myFolders.size(); j++) {  // O(M)
-			if ((maxDuration - myFolders[j].totalDuration) >= inputFiles[i].duration) {   // O(1)
-				myFolders[j].files.push_back(inputFiles[i]);  // O(1)
-				myFolders[j].totalDuration += inputFiles[i].duration;  // O(1)
-				k = 1;
+	for (int i = 0; i < inputFiles.size(); i++) {  // O(N x M)
+		int k = 0; // O(1)
+		for (int j = 0; j < myFolders.size(); j++) { // O(M)
+			if ((maxDuration - myFolders[j].totalDuration) >= inputFiles[i].duration) {		
+				myFolders[j].files.push_back(inputFiles[i]); //O(1)
+				myFolders[j].totalDuration += inputFiles[i].duration;	// o(1)
+				k = 1; // O(1)
 				break;
 			}
 		}
 		if (!k) {
 			Folder folder;
-			folder.files.push_back(inputFiles[i]);  // O(1)
-			folder.totalDuration = inputFiles[i].duration;  // O(1)
-			myFolders.push_back(folder);  // O(1)
+			folder.files.push_back(inputFiles[i]); // (1)
+			folder.totalDuration = inputFiles[i].duration; //O(1)
+			myFolders.push_back(folder); // O(1)
 		}
 	}
 	return myFolders;
@@ -181,7 +181,7 @@ std::vector<Folder> bestFit(std::vector<File> files, int maxDuration) {
 					bestDurationInd = j;		//O(1)
 				}
 				else {
-					if (folders[j].totalDuration < maxDuration - folders[bestDurationInd].totalDuration) //O(1)
+					if (curDuration < maxDuration - folders[bestDurationInd].totalDuration) //O(1)
 					{	
 						bestDurationInd = j;		//O(1)
 					}
