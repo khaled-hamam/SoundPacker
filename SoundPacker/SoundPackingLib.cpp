@@ -6,11 +6,11 @@ using namespace System::Diagnostics;
 std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 	std::vector<Folder>folders;
 
-	
-	for (int i = 0; i < files.size(); i++) {
+	//O(N*M)
+	for (int i = 0; i < files.size(); i++) {  //O(n)
 		int index = -1;
 		int Max = -1;
-		for (int j = 0; j < folders.size(); j++) {
+		for (int j = 0; j < folders.size(); j++) {    //O(m)
 			if (maxDuration - folders[j].totalDuration >= files[i].duration) {
 				if (maxDuration - folders[j].totalDuration>Max) {
 					Max = maxDuration - folders[j].totalDuration;
@@ -19,8 +19,8 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 			}
 		}
 		if (index == -1) {
-			folders.push_back(Folder());
-			folders[folders.size() - 1].files.push_back(files[i]);
+			folders.push_back(Folder()); //O(1)
+			folders[folders.size() - 1].files.push_back(files[i]); //O(1)
 			folders[folders.size() - 1].totalDuration += files[i].duration;
 		} else {
 			folders[index].files.push_back(files[i]);
@@ -33,37 +33,37 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 
 std::vector<Folder> WorstFitPQ(std::vector<File> files, int maxDuration) {
 	std::priority_queue<Folder, std::vector<Folder>, std::greater<Folder> >folders;
-
-	for (int i = 0; i < files.size(); i++) {
-		if (folders.empty()) {
-			folders.push(Folder());
-			Folder temp = folders.top();
-			folders.pop();
-			temp.files.push_back(files[i]);
+	//O(nLog(m))
+	for (int i = 0; i < files.size(); i++) { //O(N)
+		if (folders.empty()) {			//O(1)
+			folders.push(Folder());   //O(log(m)
+			Folder temp = folders.top(); //O(1)
+			folders.pop();					//O(log(m))
+			temp.files.push_back(files[i]);   //O(1)
 			temp.totalDuration += files[i].duration;
-			folders.push(temp);
+			folders.push(temp);				//O(log(m))
 		}
 
 		else if (maxDuration - folders.top().totalDuration >= files[i].duration) {
 			Folder temp = folders.top();
-			folders.pop();
-			temp.files.push_back(files[i]);
-			temp.totalDuration += files[i].duration;
-			folders.push(temp);
+			folders.pop();				//O(log(m))
+			temp.files.push_back(files[i]);   //O(1)
+			temp.totalDuration += files[i].duration; //O(1)
+			folders.push(temp);		//O(log(M))
 		} else {
-			folders.push(Folder());
-			Folder temp = folders.top();
-			folders.pop();
-			temp.files.push_back(files[i]);
-			temp.totalDuration += files[i].duration;
-			folders.push(temp);
+			folders.push(Folder());		//O(log(M))
+			Folder temp = folders.top(); //O(1)
+			folders.pop();				//O(log(M))
+			temp.files.push_back(files[i]);		//O(1)
+			temp.totalDuration += files[i].duration; //O(1)
+			folders.push(temp);				//O(log(m))
 		}
 	}
 
 	std::vector<Folder>folder;
-	while (!folders.empty()) {
+	while (!folders.empty()) {		//O(m)
 		folder.push_back(folders.top());
-		folders.pop();
+		folders.pop();		//O(log(m))
 	}
 
 	return folder;
@@ -101,6 +101,7 @@ std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 	return folders;
 }
 
+
 std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	std::priority_queue < Folder, std::vector<Folder>, std::greater<Folder> > myFolderspq;
 	if (multithreading) {
@@ -137,7 +138,7 @@ std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDu
 
 std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	if (multithreading) {
-		asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+		asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());  
 	} else {
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
@@ -161,6 +162,7 @@ std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 		}
 	}
 	return myFolders;
+
 }
 
 std::vector<Folder> bestFit(std::vector<File> files, int maxDuration) {
