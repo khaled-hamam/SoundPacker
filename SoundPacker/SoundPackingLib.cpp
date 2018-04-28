@@ -6,11 +6,11 @@ using namespace System::Diagnostics;
 std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 	std::vector<Folder>folders;
 
-	
-	for (int i = 0; i < files.size(); i++) {
+	//O(N*M)
+	for (int i = 0; i < files.size(); i++) {  //O(n)
 		int index = -1;
 		int Max = -1;
-		for (int j = 0; j < folders.size(); j++) {
+		for (int j = 0; j < folders.size(); j++) {    //O(m)
 			if (maxDuration - folders[j].totalDuration >= files[i].duration) {
 				if (maxDuration - folders[j].totalDuration>Max) {
 					Max = maxDuration - folders[j].totalDuration;
@@ -19,8 +19,8 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 			}
 		}
 		if (index == -1) {
-			folders.push_back(Folder());
-			folders[folders.size() - 1].files.push_back(files[i]);
+			folders.push_back(Folder()); //O(1)
+			folders[folders.size() - 1].files.push_back(files[i]); //O(1)
 			folders[folders.size() - 1].totalDuration += files[i].duration;
 		} else {
 			folders[index].files.push_back(files[i]);
@@ -33,37 +33,37 @@ std::vector<Folder> WorstFitLS(std::vector<File> files, int maxDuration) {
 
 std::vector<Folder> WorstFitPQ(std::vector<File> files, int maxDuration) {
 	std::priority_queue<Folder, std::vector<Folder>, std::greater<Folder> >folders;
-
-	for (int i = 0; i < files.size(); i++) {
-		if (folders.empty()) {
-			folders.push(Folder());
-			Folder temp = folders.top();
-			folders.pop();
-			temp.files.push_back(files[i]);
+	//O(nLog(m))
+	for (int i = 0; i < files.size(); i++) { //O(N)
+		if (folders.empty()) {			//O(1)
+			folders.push(Folder());   //O(log(m)
+			Folder temp = folders.top(); //O(1)
+			folders.pop();					//O(log(m))
+			temp.files.push_back(files[i]);   //O(1)
 			temp.totalDuration += files[i].duration;
-			folders.push(temp);
+			folders.push(temp);				//O(log(m))
 		}
 
 		else if (maxDuration - folders.top().totalDuration >= files[i].duration) {
 			Folder temp = folders.top();
-			folders.pop();
-			temp.files.push_back(files[i]);
-			temp.totalDuration += files[i].duration;
-			folders.push(temp);
+			folders.pop();				//O(log(m))
+			temp.files.push_back(files[i]);   //O(1)
+			temp.totalDuration += files[i].duration; //O(1)
+			folders.push(temp);		//O(log(M))
 		} else {
-			folders.push(Folder());
-			Folder temp = folders.top();
-			folders.pop();
-			temp.files.push_back(files[i]);
-			temp.totalDuration += files[i].duration;
-			folders.push(temp);
+			folders.push(Folder());		//O(log(M))
+			Folder temp = folders.top(); //O(1)
+			folders.pop();				//O(log(M))
+			temp.files.push_back(files[i]);		//O(1)
+			temp.totalDuration += files[i].duration; //O(1)
+			folders.push(temp);				//O(log(m))
 		}
 	}
 
 	std::vector<Folder>folder;
-	while (!folders.empty()) {
+	while (!folders.empty()) {		//O(m)
 		folder.push_back(folders.top());
-		folders.pop();
+		folders.pop();		//O(log(m))
 	}
 
 	return folder;
@@ -76,30 +76,31 @@ std::vector<Folder> worstFitDecreasingLS(std::vector<File> inputFiles, int maxDu
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
 	std::vector<Folder>folders;
-	for (int i = 0; i < inputFiles.size(); i++) {
-		int index = -1;
-		int Max = -1;
-		for (int j = 0; j < folders.size(); j++) {
-			if (maxDuration - folders[j].totalDuration >= inputFiles[i].duration) {
-				if (maxDuration - folders[j].totalDuration>Max) {
-					Max = maxDuration - folders[j].totalDuration;
-					index = j;
+	for (int i = 0; i < inputFiles.size(); i++) {  // O(N X M)
+		int index = -1;  // O(1)
+		int Max = -1;    // O(1)
+		for (int j = 0; j < folders.size(); j++) {   // O(M)
+			if (maxDuration - folders[j].totalDuration >= inputFiles[i].duration) { // O(1)
+				if (maxDuration - folders[j].totalDuration>Max) {  // O(1)
+					Max = maxDuration - folders[j].totalDuration;  // O(1)
+					index = j;  // O(1)
 				}
 			}
 		}
 		if (index == -1) {
-			folders.push_back(Folder());
-			folders[folders.size() - 1].files.push_back(inputFiles[i]);
-			folders[folders.size() - 1].totalDuration += inputFiles[i].duration;
+			folders.push_back(Folder());  // O(1)
+			folders[folders.size() - 1].files.push_back(inputFiles[i]);  // O(1)
+			folders[folders.size() - 1].totalDuration += inputFiles[i].duration;  // O(1)
 		}
 		else {
-			folders[index].files.push_back(inputFiles[i]);
-			folders[index].totalDuration += inputFiles[i].duration;
+			folders[index].files.push_back(inputFiles[i]);  // O(1)
+			folders[index].totalDuration += inputFiles[i].duration;  // O(1)
 		}
 	}
 
 	return folders;
 }
+
 
 std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	std::priority_queue < Folder, std::vector<Folder>, std::greater<Folder> > myFolderspq;
@@ -137,30 +138,31 @@ std::vector<Folder> worstFitDecreasingPQ(std::vector<File> inputFiles, int maxDu
 
 std::vector<Folder> firstFitDecreasingLS(std::vector<File> inputFiles, int maxDuration, bool multithreading) {
 	if (multithreading) {
-		asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());
+		asyncMergeSort(inputFiles.rbegin(), inputFiles.rend());  
 	} else {
 		sort(inputFiles.rbegin(), inputFiles.rend()); // O(N Log N)
 	}
 
 	std::vector<Folder> myFolders;
-	for (int i = 0; i < inputFiles.size(); i++) {
+	for (int i = 0; i < inputFiles.size(); i++) {  // O(N X M)
 		int k = 0;
-		for (int j = 0; j < myFolders.size(); j++) {
-			if ((maxDuration - myFolders[j].totalDuration) >= inputFiles[i].duration) {
-				myFolders[j].files.push_back(inputFiles[i]);
-				myFolders[j].totalDuration += inputFiles[i].duration;
+		for (int j = 0; j < myFolders.size(); j++) {  // O(M)
+			if ((maxDuration - myFolders[j].totalDuration) >= inputFiles[i].duration) {   // O(1)
+				myFolders[j].files.push_back(inputFiles[i]);  // O(1)
+				myFolders[j].totalDuration += inputFiles[i].duration;  // O(1)
 				k = 1;
 				break;
 			}
 		}
 		if (!k) {
 			Folder folder;
-			folder.files.push_back(inputFiles[i]);
-			folder.totalDuration = inputFiles[i].duration;
-			myFolders.push_back(folder);
+			folder.files.push_back(inputFiles[i]);  // O(1)
+			folder.totalDuration = inputFiles[i].duration;  // O(1)
+			myFolders.push_back(folder);  // O(1)
 		}
 	}
 	return myFolders;
+
 }
 
 std::vector<Folder> bestFit(std::vector<File> files, int maxDuration) {
